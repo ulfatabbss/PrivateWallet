@@ -125,8 +125,4 @@ const styles = StyleSheet.create({
     color: '#263238',
     fontSize: 24,
   },
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> c70baaa12c005c63a155451ca3832997846f665d

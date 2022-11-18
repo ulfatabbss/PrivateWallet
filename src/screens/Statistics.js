@@ -45,8 +45,6 @@ const Statistics = () => {
             <Text style={{fontSize: 16, color: '#1A2337'}}>873.34</Text>
           </View>
         </View>
-<<<<<<< HEAD
-=======
         <View
           style={{
             alignItems: 'center',
@@ -66,7 +64,6 @@ const Statistics = () => {
             Earning
           </Text>
         </View>
->>>>>>> c70baaa12c005c63a155451ca3832997846f665d
         <EarningSpendList />
       </View>
     </ScrollView>
@@ -97,8 +94,5 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontWeight: '600',
   },
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> c70baaa12c005c63a155451ca3832997846f665d
+

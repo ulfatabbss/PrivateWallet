@@ -6,7 +6,6 @@ import React from 'react';
 const barData = {
   labels: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun'],
 }
-import {DarkTheme} from '@react-navigation/native';
 const data = {
   labels: ['Mon', 'Tue', 'Wed', 'Thru', 'Fri', 'Sat', 'Sun'],
   datasets: [
@@ -39,7 +38,7 @@ const Graph = () => {
     <View style={{height: 280, paddingVertical: 10}}>
       <LineChart
         style={{marginRight: -20}}
-        data={barData}
+        data={data}
         width={screenWidth - 40}
         height={256}
         chartConfig={chartConfig}

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {earningList, spendList} from '../utilis/data';
+import {ScrollView} from 'react-native-virtualized-view';
 const Width = Dimensions.get('window').width;
 
 const MyCategories = ({item}) => (
@@ -21,18 +22,68 @@ const MyCategories = ({item}) => (
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}>
-      <Text>{item.names}</Text>
-      <Text>{item.rate}</Text>
+      <Text style={{color: '#000'}}>{item.names}</Text>
+      <Text style={{color: '#000'}}>{item.rate}</Text>
     </View>
   </TouchableOpacity>
 );
 
 const EarningSpendList = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList data={earningList} numColumns={1} renderItem={MyCategories} />
-      <FlatList data={spendList} numColumns={1} renderItem={MyCategories} />
-    </SafeAreaView>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <View
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            marginTop: 10,
+            paddingVertical: 10,
+          }}>
+          <View
+            style={{
+              backgroundColor: '#5176C2',
+              borderRadius: 25,
+              height: 15,
+              width: 15,
+              margin: 15,
+            }}></View>
+          <Text style={{fontSize: 22, fontWeight: '700', color: '#5176C2'}}>
+            Earning
+          </Text>
+        </View>
+        <FlatList
+          data={earningList}
+          numColumns={1}
+          renderItem={MyCategories}
+          keyExtractor={(item, index) => item.id}
+        />
+        <View
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            marginTop: 10,
+            paddingVertical: 10,
+          }}>
+          <View
+            style={{
+              backgroundColor: '#FFB841',
+              borderRadius: 25,
+              height: 15,
+              width: 15,
+              marginHorizontal: 15,
+            }}></View>
+          <Text style={{fontSize: 22, fontWeight: '700', color: '#FFB841'}}>
+            Spend
+          </Text>
+        </View>
+        <FlatList
+          data={spendList}
+          numColumns={1}
+          renderItem={MyCategories}
+          keyExtractor={(item, index) => item.id}
+        />
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -41,7 +92,9 @@ export default EarningSpendList;
 const styles = StyleSheet.create({
   container: {},
   categoryList: {
-    height: 50,
+    height: 60,
+    borderWidth: 0.5,
+    borderColor: '#5176C2',
     width: Width - 20,
     alignSelf: 'center',
     marginVertical: 10,

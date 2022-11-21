@@ -18,6 +18,8 @@ import GetStartScreen from './src/screens/GetStartScreen';
 import SelectPage from './src/screens/SelectPage';
 import EditProfile from './src/screens/EditProfile';
 import Settings from './src/components/Settings';
+import Accounts from './src/components/Accounts';
+import AddRecord from './src/components/AddRecord';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +42,9 @@ return(
     <Stack.Screen name="AddItem" component={AddItem} />
     <Stack.Screen name="EditProfile" component={EditProfile} />
     <Stack.Screen name="Settings" component={Settings} />
+    <Stack.Screen name="Accounts" component={Accounts} />
+    <Stack.Screen name="AddRecord" component={AddRecord} />
+
   </Stack.Navigator>
 )
 }

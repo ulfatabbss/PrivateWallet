@@ -205,7 +205,7 @@ const Home = ({navigation}) => {
                 marginTop: 20,
                 justifyContent: 'space-around',
               }}>
-              <TouchableOpacity style={styles.incomeExpenseCard}>
+              <TouchableOpacity style={styles.incomeExpenseCard} onPress={()=>{navigation.navigate('AddRecord')}}>
                 <Text
                   style={{color: '#233A6B', fontSize: 16, fontWeight: '900'}}>
                   + Add income

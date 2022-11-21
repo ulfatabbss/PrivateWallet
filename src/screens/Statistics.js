@@ -3,17 +3,20 @@ import DonutChart from '../components/DonutChart';
 import React from 'react';
 import EarningSpendList from '../components/EarningSpendList';
 import {ScrollView} from 'react-native-virtualized-view';
+import Header from '../components/Header';
 const Width = Dimensions.get('window').width;
-const Statistics = () => {
+const Statistics = ({navigation}) => {
   return (
     <ScrollView>
       <View style={{flex: 1, backgroundColor: 'white'}}>
+        <Header navigation={navigation} text={'Summary Report '} color={'#233A6B'}/>
         <View style={styles.graphContainer}>
           <Text
             style={{
               fontSize: 28,
               fontWeight: '900',
               alignSelf: 'center',
+              marginBottom: 10,
               color: '#233A6B',
             }}>
             Statistics
@@ -45,26 +48,8 @@ const Statistics = () => {
             <Text style={{fontSize: 16, color: '#1A2337'}}>873.34</Text>
           </View>
         </View>
-        <View
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-            height: 80,
-            marginTop: 10,
-          }}>
-          <View
-            style={{
-              backgroundColor: '#5176C2',
-              borderRadius: 25,
-              height: 15,
-              width: 15,
-              margin: 15,
-            }}></View>
-          <Text style={{fontSize: 22, fontWeight: '700', color: '#5176C2'}}>
-            Earning
-          </Text>
-        </View>
-        <EarningSpendList />
+
+        <EarningSpendList/>
       </View>
     </ScrollView>
   );
@@ -95,4 +80,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-

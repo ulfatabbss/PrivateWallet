@@ -38,7 +38,8 @@ const Signup = ({navigation}) => {
             resizeMode={'contain'}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image
-                style={{height: 20, width: 20, marginTop: 60, marginLeft: 20}}
+              resizeMode='contain'
+                style={{height: 25, width: 25, marginTop: 20, marginLeft: 20}}
                 source={require('../assets/back.png')}
               />
             </TouchableOpacity>
@@ -74,56 +75,41 @@ const Signup = ({navigation}) => {
               alignItems: 'center',
             }}></View>
 
-          <View
-            style={{
-              marginTop: 10,
-              height: 40,
-              width: Width - 70,
-              alignSelf: 'center',
-              borderWidth: 1,
-              borderColor: '#5176C2',
-              borderRadius: 5,
-            }}>
-            <Text
-              style={{
-                bottom: 10,
-                backgroundColor: 'white',
-                width: 40,
-                marginLeft: 5,
-                color: '#5176C2',
-                fontWeight: '600',
-                textAlign: 'center',
-              }}>
-              Name
-            </Text>
+          <View style={styles.inputCards}>
+            <Text style={styles.inputHeadings}>Name</Text>
             <TextInput
-              style={{bottom: 16, height: 40, color: '#000'}}
+              style={[styles.placeholderText, {bottom: 16}]}
               placeholder="name"
               placeholderTextColor={'#BFC0C2'}
             />
           </View>
-          <View style={inputText}>
+          <View style={styles.inputCards}>
+            <Text style={styles.inputHeadings}>E-mail</Text>
             <TextInput
-              style={{height: 40, color: '#000'}}
-              autoCapitalize={'none'}
-              placeholder="Email"
+              style={[styles.placeholderText, {bottom: 16}]}
+              placeholder="example@gmail.com"
               placeholderTextColor={'#BFC0C2'}
             />
           </View>
-          <View style={inputText}>
+          <View style={styles.inputCards}>
+            <Text style={[styles.inputHeadings, {width: 70}]}>Password</Text>
             <TextInput
-              style={{height: 40}}
-              placeholderTextColor={'#BFC0C2'}
+              style={[styles.placeholderText, {bottom: 16}]}
               placeholder="Password"
+              placeholderTextColor={'#BFC0C2'}
             />
           </View>
-          <View style={inputText}>
+          <View style={styles.inputCards}>
+            <Text style={[styles.inputHeadings, {width: 120}]}>
+              Confirm Password
+            </Text>
             <TextInput
-              style={{height: 40}}
+              style={[styles.placeholderText, {bottom: 16}]}
               placeholder="Confirm Password"
               placeholderTextColor={'#BFC0C2'}
             />
           </View>
+
           <TouchableOpacity style={[button, {marginTop: 30}]}>
             <Text style={{alignSelf: 'center', color: '#F8F8F8', fontSize: 20}}>
               Sign up
@@ -138,7 +124,7 @@ const Signup = ({navigation}) => {
               justifyContent: 'center',
               alignSelf: 'center',
             }}>
-            <Text>Already have an account?</Text>
+            <Text style={{color:'#898E9A'}}>Already have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text style={{color: '#5176C2'}}> Login</Text>
             </TouchableOpacity>
@@ -151,4 +137,24 @@ const Signup = ({navigation}) => {
 
 export default Signup;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  inputCards: {
+    marginTop: 10,
+    height: 50,
+    width: Width - 70,
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: '#5176C2',
+    borderRadius: 5,
+  },
+  inputHeadings: {
+    bottom: 10,
+    backgroundColor: 'white',
+    width: 40,
+    marginLeft: 10,
+    color: '#5176C2',
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  placeholderText: {height: 40, color: '#000', marginLeft: 10},
+});

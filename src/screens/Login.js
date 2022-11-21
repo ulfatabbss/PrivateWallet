@@ -45,12 +45,13 @@ const Login = ({navigation}) => {
             style={{height: '110%', width: Width, top: 15}}
             source={require('../assets/login1.png')}
             resizeMode={'contain'}>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Image
-                style={{height: 20, width: 20, marginTop: 50, marginLeft: 20}}
+              resizeMode='contain'
+                  style={{height: 25, width: 25, marginTop: 20, marginLeft: 20}}
                 source={require('../assets/back.png')}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </ImageBackground>
         </View>
 
@@ -173,7 +174,7 @@ const Login = ({navigation}) => {
               justifyContent: 'center',
               alignSelf: 'center',
             }}>
-            <Text>Don't have an account?</Text>
+            <Text style={{color:'#898E9A'}}>Don't have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
               <Text style={{color: '#5176C2'}}> Signup</Text>
             </TouchableOpacity>

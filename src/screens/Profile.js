@@ -15,13 +15,13 @@ const Profile = ({navigation}) => {
 </View>
 </ImageBackground>
      </View>
-     <View style={{height:60,borderColor:'grey',marginHorizontal:20,borderBottomWidth:1,marginTop:10,flexDirection:'row',alignItems:'center',alignItems:'center'}}>
+     <TouchableOpacity onPress={()=>{navigation.navigate('EditProfile')}} style={{height:60,borderColor:'grey',marginHorizontal:20,borderBottomWidth:1,marginTop:10,flexDirection:'row',alignItems:'center',alignItems:'center'}}>
 <Image resizeMode='contain' style={styles.icon} source={require('../assets/user.png')}/>
-<Text style={styles.text}>Profile</Text>
-<TouchableOpacity onPress={()=>{navigation.navigate('EditProfile')}}>
-  <Text style={{color:'#233A6B',marginLeft:180}}>Edit</Text>
+<Text style={styles.text}>Edit Profile</Text>
+{/* <TouchableOpacity onPress={()=>{navigation.navigate('EditProfile')}}>
+  <Text style={{color:'#233A6B',marginLeft:180}}>Edit</Text> */}
 </TouchableOpacity>
-     </View>
+    
      <View style={{borderColor:'grey',marginHorizontal:20,borderBottomWidth:1,marginHorizontal:20,paddingVertical:15}}>
       <TouchableOpacity style={{flexDirection:'row'}}>
       <Image resizeMode='contain' style={{height:20,width:20}} source={require('../assets/graph.png')}/>

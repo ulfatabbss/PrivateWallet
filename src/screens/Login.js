@@ -22,9 +22,27 @@ import {
 import React, {useState} from 'react';
 import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
+import Header from '../components/Header';
 const Login = ({navigation}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [error, SetError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
+  const Check = () => {
+    if (email == null && password == null) {
+      setPasswordError('✵Password Required');
+      SetError('✵Email Required');
+    }
+     else if (password == null) {
+      setPasswordError('✵Password Required');
+    } else if (email == null) {
+      SetError('*Email required*');
+    } else {
+      navigation.replace('MyTabs');
+    }
+  };
   return (
     <MyWrapper>
       <SafeAreaView
@@ -45,17 +63,9 @@ const Login = ({navigation}) => {
             style={{height: '110%', width: Width, top: 15}}
             source={require('../assets/login1.png')}
             resizeMode={'contain'}>
-            {/* <TouchableOpacity>
-              <Image
-              resizeMode='contain'
-                  style={{height: 25, width: 25, marginTop: 20, marginLeft: 20}}
-                source={require('../assets/back.png')}
-              />
-            </TouchableOpacity> */}
+            <Header navigation={navigation} text={''} color={'#fff'} />
           </ImageBackground>
         </View>
-
-        {/* loginCard */}
         <View style={styles.loginCard}>
           <Text
             style={{
@@ -88,7 +98,9 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity>
-            <Text style={{alignSelf: 'center',color:'#898E9A'}}>Or use your email account</Text>
+            <Text style={{alignSelf: 'center', color: '#898E9A'}}>
+              Or use your email account
+            </Text>
           </TouchableOpacity>
           <View style={inputText}>
             <Text
@@ -107,11 +119,13 @@ const Login = ({navigation}) => {
               style={{bottom: 16, height: 40, color: '#000'}}
               autoCapitalize={'none'}
               placeholderTextColor={'#BFC0C2'}
+              onChangeText={text => setEmail(text) || SetError(null)}
               placeholder="example@gmail.com"
             />
           </View>
-          <View style={[inputText,{marginTop:20}]}>
-          <Text
+          <Text style={{color: 'red', marginLeft: 30}}>{error}</Text>
+          <View style={[inputText, {marginTop: 20}]}>
+            <Text
               style={{
                 bottom: 10,
                 backgroundColor: 'white',
@@ -124,19 +138,22 @@ const Login = ({navigation}) => {
               Password
             </Text>
             <TextInput
-        style={{bottom: 16, height: 40, color: '#000'}}
+              style={{bottom: 16, height: 40, color: '#000'}}
               placeholder="***********"
               placeholderTextColor={'#BFC0C2'}
+              value={password}
+              onChangeText={text => setPassword(text) || setPasswordError(null)}
               secureTextEntry
             />
           </View>
+          <Text style={{color: 'red', marginLeft: 30}}>{passwordError}</Text>
           <View
             style={{
               margin: 20,
               width: Width - 70,
               flexDirection: 'row',
               alignItems: 'center',
-              alignSelf: 'center'
+              alignSelf: 'center',
             }}>
             <Switch
               style={{alignSelf: 'flex-start'}}
@@ -158,9 +175,7 @@ const Login = ({navigation}) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('MyTabs')}
-            style={button}>
+          <TouchableOpacity onPress={() => Check()} style={button}>
             <Text style={{alignSelf: 'center', color: '#F8F8F8', fontSize: 20}}>
               Login
             </Text>
@@ -174,7 +189,7 @@ const Login = ({navigation}) => {
               justifyContent: 'center',
               alignSelf: 'center',
             }}>
-            <Text style={{color:'#898E9A'}}>Don't have an account?</Text>
+            <Text>Don't have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
               <Text style={{color: '#5176C2'}}> Signup</Text>
             </TouchableOpacity>

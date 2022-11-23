@@ -20,6 +20,7 @@ import EditProfile from './src/screens/EditProfile';
 import Settings from './src/components/Settings';
 import Accounts from './src/components/Accounts';
 import AddRecord from './src/components/AddRecord';
+import Catagories from './src/components/Catagories';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,6 +45,8 @@ return(
     <Stack.Screen name="Settings" component={Settings} />
     <Stack.Screen name="Accounts" component={Accounts} />
     <Stack.Screen name="AddRecord" component={AddRecord} />
+    <Stack.Screen name="Catagories" component={Catagories} />
+
 
   </Stack.Navigator>
 )

@@ -48,7 +48,7 @@ const GetStartScreen = ({navigation}) => {
           height: 50,
           width: '70%',
           alignSelf: 'center',
-          backgroundColor: '#84A0DD',
+          backgroundColor: '#5176C2',
           borderRadius: 10,
           marginTop: 50,
           alignItems: 'center',

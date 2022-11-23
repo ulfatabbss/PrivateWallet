@@ -4,7 +4,7 @@ import Lottie from 'lottie-react-native';
 const SelectPage = ({navigation}) => {
   return (
     <View style={{flex:1,backgroundColor:'#5176C2',alignItems:'center'}}>  
-    <StatusBar backgroundColor={'#5176C2'} />  
+    <StatusBar barStyle={'light-content'} backgroundColor={'#5176C2'} />  
         <Image style={{height:360,width:'100%',marginBottom:50,borderBottomLeftRadius:50,borderBottomRightRadius:50}} source={require('../assets/choice.png')} />
     <Text style={{color:'#fff',fontSize:26,fontWeight:'bold',paddingHorizontal:20,width:'90%'}}>Easy way to manage 
 your e-wallet </Text>

@@ -5,7 +5,7 @@ import Header from './Header'
 const Accounts = ({navigation}) => {
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
-   <Header navigation={navigation} text={'Accounts'}  color={'#000'}/>
+   <Header navigation={navigation} text={'Accounts'}  color={'#5176C2'}/>
       <View style={styles.rowData}>
 <View style={{flexDirection:'row',alignItems:'center'}}>
 <Image resizeMode='contain' style={{height:40,width:40,borderRadius:20}} source={{uri:"https://i.pinimg.com/236x/98/e3/44/98e344d51bb96837bf70ee8303854992.jpg"}}/>

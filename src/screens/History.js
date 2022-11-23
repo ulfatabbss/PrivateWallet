@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View,Image, FlatList,TouchableOpacity,Dimensions} from 'react-native';
 import React from 'react';
-import { AllCategories } from '../components/Catagories';
+import { AllCategories } from '../utilis/catData';
+
 
 
 const myCategories = ({item}) => (

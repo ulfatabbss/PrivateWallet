@@ -13,6 +13,7 @@ import {
 import React from 'react';
 import MyWrapper from '../components/MyWrapper';
 import {button, inputText} from '../utilis/style';
+import Header from '../components/Header';
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 
@@ -25,30 +26,8 @@ const ConfirmPassword = ({navigation}) => {
           width: Width,
           backgroundColor: '#fff',
         }}>
-        <StatusBar backgroundColor={'white'} />
-        <View
-          style={{
-            height: '15%',
-            width: Width - 80,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 15,
-          }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              style={{
-                height: 20,
-                width: 20,
-                marginLeft: 20,
-                tintColor: 'black',
-              }}
-              source={require('../assets/back.png')}
-            />
-          </TouchableOpacity>
-          <Text style={styles.boldText}>Confirm Password</Text>
-        </View>
-
+      <StatusBar barStyle={'dark-content'} backgroundColor={'#FFF'} /> 
+        <Header navigation={navigation} text={'Confirm Password'} color={'#5176C2'}/>
         <View
           style={{
             height: '40%',
@@ -110,7 +89,7 @@ const ConfirmPassword = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')}
           style={[button, {height: '6%', margin: 40, alignItems: 'center'}]}>
-          <Text style={{fontSize: 20, color: '#fff'}}>Sent</Text>
+          <Text style={{fontSize: 20, color: '#fff',fontWeight:'600'}}>Sent</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </MyWrapper>

@@ -13,6 +13,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {button} from '../utilis/style';
 import React from 'react';
 import MyWrapper from '../components/MyWrapper';
+import Header from '../components/Header';
 
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
@@ -27,29 +28,8 @@ const Verify = ({navigation}) => {
           backgroundColor: '#fff',
         }}>
         <StatusBar backgroundColor={'white'} />
-        <View
-          style={{
-            height: '15%',
-            width: '59%',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 15,
-          }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              style={{
-                height: 20,
-                width: 20,
-                marginLeft: 20,
-                tintColor: 'black',
-              }}
-              source={require('../assets/back.png')}
-            />
-          </TouchableOpacity>
-          <Text style={styles.boldText}>Verify</Text>
-        </View>
 
+<Header navigation={navigation} text={'Verify'} color={'#5176C2'}/>
         <View
           style={{
             height: '40%',

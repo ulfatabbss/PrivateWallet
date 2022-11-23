@@ -10,12 +10,12 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {AllCategories} from '../components/Catagories';
 import {ScrollView} from 'react-native-virtualized-view';
 import Modal from 'react-native-modal';
 import {useState} from 'react';
 import {button} from '../utilis/style';
 import Graph from '../components/Graph';
+import { AllCategories } from '../utilis/catData';
 const Home = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -25,7 +25,7 @@ const Home = ({navigation}) => {
 
   const [selected, setSelected] = useState('Day');
   const [color, setColor] = useState('white');
-
+const [balance,setBalance]=useState('7900.00')
   const myCategories = ({item}) => (
     <View style={{justifyContent:'center',alignItems:'center'}} >
  <TouchableOpacity style={styles.categoryCard} >
@@ -88,7 +88,7 @@ const Home = ({navigation}) => {
                   fontSize: 24,
                   fontWeight: 'bold',
                 }}>
-                Rs7900.00
+             Rs {balance}
               </Text>
 
               <View style={{flex: 1}}>
@@ -97,10 +97,11 @@ const Home = ({navigation}) => {
                   style={{
                     backgroundColor: 'white',
                     height: 20,
-                    marginLeft: 5,
+                    marginLeft: 10,
+                    marginTop:5,
                     width: 20,
                     alignItems: 'center',
-                    borderRadius: 25,
+                    borderRadius: 10,
                     justifyContent: 'center',
                   }}>
                   <Image
@@ -177,8 +178,10 @@ const Home = ({navigation}) => {
                           }}
                           placeholderTextColor= 'grey'
                           cursorColor={'black'}
-                          placeholder={'7900.00'}
-                          keyboardType={'numeric'}
+                          onChangeText={text => setBalance(text)}
+                          value={balance}
+                          keyboardType="numeric"
+                       
                         />
                       </View>
                       <TouchableOpacity
@@ -228,7 +231,7 @@ const Home = ({navigation}) => {
           alignSelf: 'center',
           backgroundColor: 'white',
           elevation: 5,
-          borderRadius: 20,
+          borderRadius: 10,
           shadowColor: 'darkblue',
         }}>
         <Text
@@ -241,7 +244,7 @@ const Home = ({navigation}) => {
         <View
           style={{
             flexDirection: 'row',
-            height: 60,
+            height: 50,
             width: '90%',
             alignSelf: 'center',
             backgroundColor: '#5176C2',
@@ -298,7 +301,7 @@ const Home = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <Graph />
+        <Graph set={selected} />
       </View>
       <Text
         style={{
@@ -331,7 +334,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignSelf: 'center',
     overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 10,
   },
   dashbordcard: {
     height: '100%',

@@ -55,7 +55,8 @@ const EarningSpendList = () => {
           data={earningList}
           numColumns={1}
           renderItem={MyCategories}
-          keyExtractor={(item, index) => item.id}
+          listKey={(item, index) => `_key${index.toString()}`}
+          keyExtractor={(item, index) => `_key${index.toString()}`}
         />
         <View
           style={{
@@ -80,7 +81,8 @@ const EarningSpendList = () => {
           data={spendList}
           numColumns={1}
           renderItem={MyCategories}
-          keyExtractor={(item, index) => item.id}
+          listKey={(item, index) => `_key${index.toString()}`}
+          keyExtractor={(item, index) => `_key${index.toString()}`}
         />
       </SafeAreaView>
     </ScrollView>

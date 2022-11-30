@@ -1,15 +1,106 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import DonutChart from '../components/DonutChart';
-import React from 'react';
+import React, {useState} from 'react';
 import EarningSpendList from '../components/EarningSpendList';
 import {ScrollView} from 'react-native-virtualized-view';
 import Header from '../components/Header';
+import Graph from '../components/Graph';
 const Width = Dimensions.get('window').width;
 const Statistics = ({navigation}) => {
+  const [selected, setSelected] = useState('Day');
   return (
     <ScrollView>
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <Header navigation={navigation} text={'Summary Report '} color={'#233A6B'}/>
+        <Header
+          navigation={navigation}
+          text={'Summary Report '}
+          color={'#233A6B'}
+        />
+        <View
+          style={{
+            height: 400,
+            width: '90%',
+            alignSelf: 'center',
+            backgroundColor: 'white',
+            elevation: 5,
+            borderRadius: 10,
+            shadowColor: 'darkblue',
+          }}>
+          <Text
+            style={[
+              styles.h1,
+              {alignSelf: 'center', fontSize: 20, marginTop: 10},
+            ]}>
+            Balance Trend
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              height: 50,
+              width: '90%',
+              alignSelf: 'center',
+              backgroundColor: '#5176C2',
+              borderRadius: 5,
+              marginTop: 14,
+              overflow: 'hidden',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <TouchableOpacity
+              onPress={() => setSelected('Day')}
+              style={{
+                height: 40,
+                width: '30%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+
+                backgroundColor: selected == 'Day' ? 'white' : '#5176C2',
+              }}>
+              <Text style={{color: selected == 'Day' ? 'black' : 'white'}}>
+                Day
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setSelected('Month')}
+              style={{
+                height: 40,
+                width: '30%',
+                borderRadius: 5,
+
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: selected == 'Month' ? 'white' : '#5176C2',
+              }}>
+              <Text style={{color: selected == 'Month' ? 'black' : 'white'}}>
+                Month
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setSelected('year')}
+              style={{
+                height: 40,
+                width: '30%',
+                borderRadius: 5,
+
+                justifyContent: 'center',
+                alignItems: 'center',
+
+                backgroundColor: selected == 'year' ? 'white' : '#5176C2',
+              }}>
+              <Text style={{color: selected == 'year' ? 'black' : 'white'}}>
+                year
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <Graph set={selected} />
+        </View>
         <View style={styles.graphContainer}>
           <Text
             style={{
@@ -49,7 +140,7 @@ const Statistics = ({navigation}) => {
           </View>
         </View>
 
-        <EarningSpendList/>
+        <EarningSpendList />
       </View>
     </ScrollView>
   );
@@ -78,5 +169,10 @@ const styles = StyleSheet.create({
     color: '#BFC0C2',
     marginLeft: 5,
     fontWeight: '600',
+  },
+  h1: {
+    color: '#233A6B',
+    fontSize: 16,
+    fontWeight: '900',
   },
 });

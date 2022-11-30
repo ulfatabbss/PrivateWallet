@@ -1,80 +1,27 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import React from 'react';
+import SelectPage from '../screens/SelectPage';
+import GetStartScreen from '../screens/GetStartScreen';
+import SplashScreen from '../screens/SplashScreen';
+import Home from '../screens/Home';
+import Statistics from '../screens/Statistics';
+import Profile from '../screens/Profile';
+import History from '../screens/History';
+import AddItem from '../screens/AddItem';
+import EditProfile from '../screens/EditProfile';
+import Settings from '../components/Settings';
+import Accounts from '../components/Accounts';
+import AddRecord from '../components/AddRecord';
+import Catagories from '../components/Catagories';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React, {useEffect, useState} from 'react';
-import Login from './src/screens/Login';
-import Signup from './src/screens/Signup';
-import Verify from './src/screens/Verify';
-import ForgotPassword from './src/screens/ForgotPassword';
-import ConfirmPassword from './src/screens/ConfirmPassword';
-import Home from './src/screens/Home';
-import History from './src/screens/History';
-import Profile from './src/screens/Profile';
-import AddItem from './src/screens/AddItem';
-import Statistics from './src/screens/Statistics';
-import SplashScreen from './src/screens/SplashScreen';
-import GetStartScreen from './src/screens/GetStartScreen';
-import SelectPage from './src/screens/SelectPage';
-import EditProfile from './src/screens/EditProfile';
-import Settings from './src/components/Settings';
-import Accounts from './src/components/Accounts';
-import AddRecord from './src/components/AddRecord';
-import Catagories from './src/components/Catagories';
-import AppStack from './src/navigations/AppStack';
-import AuthStack from './src/navigations/AuthStack';
-import auth from '@react-native-firebase/auth';
-
+import Login from '../screens/Login';
+import Signup from '../screens/Signup';
+import Verify from '../screens/Verify';
+import ForgotPassword from '../screens/ForgotPassword';
+import ConfirmPassword from '../screens/ConfirmPassword';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const MyStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="GetStartScreen" component={GetStartScreen} />
-      <Stack.Screen name="SelectPage" component={SelectPage} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
-      <Stack.Screen name="Verify" component={Verify} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="ConfirmPassword" component={ConfirmPassword} />
-      <Stack.Screen name="MyTabs" component={MyTabs} />
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Statistics" component={Statistics} />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="History" component={History} />
-      <Stack.Screen name="AddItem" component={AddItem} />
-      <Stack.Screen name="EditProfile" component={EditProfile} />
-      <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="Accounts" component={Accounts} />
-      <Stack.Screen name="AddRecord" component={AddRecord} />
-      <Stack.Screen name="Catagories" component={Catagories} />
-    </Stack.Navigator>
-  );
-};
-const App = () => {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  if (initializing) return null;
-
-  return (
-    <NavigationContainer>
-      {user ? <AppStack /> : <AuthStack />}
-    </NavigationContainer>
-  );
-};
 function MyTabs() {
   return (
     <Tab.Navigator
@@ -94,7 +41,7 @@ function MyTabs() {
                 justifyContent: 'center',
               }}>
               <Image
-                source={require('./src/assets/homeicon.png')}
+                source={require('../assets/homeicon.png')}
                 style={{
                   height: 24,
                   width: 24,
@@ -124,7 +71,7 @@ function MyTabs() {
               }}>
               <Image
                 resizeMode="contain"
-                source={require('./src/assets/statisticsicon.png')}
+                source={require('../assets/statisticsicon.png')}
                 style={{
                   height: 24,
                   width: 24,
@@ -161,7 +108,7 @@ function MyTabs() {
               }}>
               <Image
                 resizeMode="contain"
-                source={require('./src/assets/addicon.png')}
+                source={require('../assets/addicon.png')}
                 style={{
                   height: 60,
                   width: 60,
@@ -184,7 +131,7 @@ function MyTabs() {
               }}>
               <Image
                 resizeMode="contain"
-                source={require('./src/assets/historyicon.png')}
+                source={require('../assets/historyicon.png')}
                 style={{
                   height: 24,
                   width: 24,
@@ -214,7 +161,7 @@ function MyTabs() {
               }}>
               <Image
                 resizeMode="contain"
-                source={require('./src/assets/profileicon.png')}
+                source={require('../assets/profileicon.png')}
                 style={{
                   height: 24,
                   width: 24,
@@ -235,7 +182,32 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
+const AppStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      {/* <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen name="GetStartScreen" component={GetStartScreen} /> */}
+      {/* <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="Verify" component={Verify} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="ConfirmPassword" component={ConfirmPassword} /> */}
+      {/* <Stack.Screen name="SelectPage" component={SelectPage} /> */}
+      <Stack.Screen name="MyTabs" component={MyTabs} />
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Statistics" component={Statistics} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="History" component={History} />
+      <Stack.Screen name="AddItem" component={AddItem} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="Accounts" component={Accounts} />
+      <Stack.Screen name="AddRecord" component={AddRecord} />
+      <Stack.Screen name="Catagories" component={Catagories} />
+    </Stack.Navigator>
+  );
+};
 
-export default App;
+export default AppStack;
 
 const styles = StyleSheet.create({});

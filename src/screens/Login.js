@@ -3,7 +3,6 @@ import {
   Image,
   ImageBackground,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -23,24 +22,25 @@ import React, {useState} from 'react';
 import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
 import Header from '../components/Header';
+import {login} from '../navigations/AuthProvider';
 const Login = ({navigation}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState('salim');
+  const [password, setPassword] = useState('null');
   const [error, SetError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const Check = () => {
     if (email == null && password == null) {
       setPasswordError('✵Password Required');
       SetError('✵Email Required');
-    }
-     else if (password == null) {
+    } else if (password == null) {
       setPasswordError('✵Password Required');
     } else if (email == null) {
       SetError('*Email required*');
     } else {
-      navigation.replace('MyTabs');
+      login({email, password, navigation});
+      // navigation.replace('MyTabs');
     }
   };
   return (
@@ -149,10 +149,10 @@ const Login = ({navigation}) => {
           <Text style={{color: 'red', marginLeft: 30}}>{passwordError}</Text>
           <View
             style={{
-              margin: 20,
               width: Width - 70,
               flexDirection: 'row',
               alignItems: 'center',
+              marginBottom: 10,
               alignSelf: 'center',
             }}>
             <Switch
@@ -176,9 +176,7 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => Check()} style={button}>
-            <Text style={{alignSelf: 'center', color: '#F8F8F8', fontSize: 20}}>
-              Login
-            </Text>
+            <Text style={{color: '#F8F8F8', fontSize: 20}}>Login</Text>
           </TouchableOpacity>
           <View
             style={{
@@ -189,7 +187,7 @@ const Login = ({navigation}) => {
               justifyContent: 'center',
               alignSelf: 'center',
             }}>
-            <Text>Don't have an account?</Text>
+            <Text style={{color: 'grey'}}>Don't have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
               <Text style={{color: '#5176C2'}}> Signup</Text>
             </TouchableOpacity>
@@ -204,8 +202,8 @@ export default Login;
 
 const styles = StyleSheet.create({
   socialIcons: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
   },
   loginCard: {
     flex: 1,
@@ -215,7 +213,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   socialIconsView: {
-    height: 70,
+    height: 50,
     width: Width - 70,
     borderTopWidth: 1,
     borderColor: '#D9D9D9',

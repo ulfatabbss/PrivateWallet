@@ -26,15 +26,13 @@ const ConfirmPassword = ({navigation}) => {
           width: Width,
           backgroundColor: '#fff',
         }}>
-      <StatusBar barStyle={'dark-content'} backgroundColor={'#FFF'} /> 
-        <Header navigation={navigation} text={'Confirm Password'} color={'#5176C2'}/>
-        <View
-          style={{
-            height: '40%',
-            width: Width,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+        <StatusBar barStyle={'dark-content'} backgroundColor={'#FFF'} />
+        <Header
+          navigation={navigation}
+          text={'Confirm Password'}
+          color={'#5176C2'}
+        />
+        <View style={styles.imageContainer}>
           <ImageBackground
             style={{height: '100%', width: Width}}
             source={require('../assets/changepassword.png')}
@@ -47,18 +45,7 @@ const ConfirmPassword = ({navigation}) => {
           Recieve a verification code.
         </Text>
         <View style={[inputText, {marginTop: 40}]}>
-          <Text
-            style={{
-              bottom: 10,
-              backgroundColor: 'white',
-              width: 100,
-              marginLeft: 5,
-              color: '#5176C2',
-              fontWeight: '600',
-              textAlign: 'center',
-            }}>
-            New Password
-          </Text>
+          <Text style={styles.fieldText}>New Password</Text>
           <TextInput
             style={{bottom: 16, height: 40, color: '#000'}}
             autoCapitalize={'none'}
@@ -67,16 +54,7 @@ const ConfirmPassword = ({navigation}) => {
           />
         </View>
         <View style={[inputText, {marginTop: 20}]}>
-          <Text
-            style={{
-              bottom: 10,
-              backgroundColor: 'white',
-              width: 150,
-              marginLeft: 5,
-              color: '#5176C2',
-              fontWeight: '600',
-              textAlign: 'center',
-            }}>
+          <Text style={[styles.fieldText, {width: 150}]}>
             Confirm New Password
           </Text>
           <TextInput
@@ -89,7 +67,9 @@ const ConfirmPassword = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')}
           style={[button, {height: '6%', margin: 40, alignItems: 'center'}]}>
-          <Text style={{fontSize: 20, color: '#fff',fontWeight:'600'}}>Sent</Text>
+          <Text style={{fontSize: 20, color: '#fff', fontWeight: '600'}}>
+            Sent
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     </MyWrapper>
@@ -103,5 +83,20 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#5176C2',
     alignSelf: 'center',
+  },
+  imageContainer: {
+    height: '40%',
+    width: Width,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fieldText: {
+    bottom: 10,
+    backgroundColor: 'white',
+    width: 100,
+    marginLeft: 5,
+    color: '#5176C2',
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

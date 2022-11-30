@@ -44,17 +44,7 @@ const GetStartScreen = ({navigation}) => {
       </Text>
       <TouchableOpacity
         onPress={() => navigation.navigate('SelectPage')}
-        style={{
-          height: 50,
-          width: '70%',
-          alignSelf: 'center',
-          backgroundColor: '#5176C2',
-          borderRadius: 10,
-          marginTop: 50,
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'row',
-        }}>
+        style={styles.buttonStart}>
         <Text style={{fontSize: 16, color: '#fff'}}>Get Started</Text>
         <Image
           style={{height: 15, width: 15, marginHorizontal: 10}}
@@ -67,4 +57,16 @@ const GetStartScreen = ({navigation}) => {
 
 export default GetStartScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  buttonStart: {
+    height: 50,
+    width: '70%',
+    alignSelf: 'center',
+    backgroundColor: '#5176C2',
+    borderRadius: 10,
+    marginTop: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+});

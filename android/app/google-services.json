@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "935802188310",
+    "project_id": "private-wallet-e28d0",
+    "storage_bucket": "private-wallet-e28d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935802188310:android:58194dade1b447c074fb37",
+        "android_client_info": {
+          "package_name": "com.e_wallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935802188310-nld71tu24b8l2229lshc27vcaii3shr8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs9fxHeJrG5-CMbYV3q4FfWs8pBh9IqfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935802188310-nld71tu24b8l2229lshc27vcaii3shr8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

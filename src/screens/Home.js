@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,StatusBar,
+  TouchableOpacity,
+  StatusBar,
   View,
 } from 'react-native';
 import React from 'react';
@@ -15,7 +16,7 @@ import Modal from 'react-native-modal';
 import {useState} from 'react';
 import {button} from '../utilis/style';
 import Graph from '../components/Graph';
-import { AllCategories } from '../utilis/catData';
+import {AllCategories} from '../utilis/catData';
 const Home = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -24,18 +25,16 @@ const Home = ({navigation}) => {
   };
 
   const [selected, setSelected] = useState('Day');
-  const [color, setColor] = useState('white');
-const [balance,setBalance]=useState('7900.00')
+  const [balance, setBalance] = useState('7900.00');
   const myCategories = ({item}) => (
-    <View style={{justifyContent:'center',alignItems:'center'}} >
- <TouchableOpacity style={styles.categoryCard} >
-      <Image
-        resizeMode="contain"
-        style={{height: 30, width: 30}}
-        source={item.img}></Image>
-      
-    </TouchableOpacity>
-    <Text
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <TouchableOpacity style={styles.categoryCard}>
+        <Image
+          resizeMode="contain"
+          style={{height: 30, width: 30}}
+          source={item.img}></Image>
+      </TouchableOpacity>
+      <Text
         style={{
           fontSize: 12,
           fontWeight: '600',
@@ -44,11 +43,10 @@ const [balance,setBalance]=useState('7900.00')
         {item.name}
       </Text>
     </View>
-   
   );
   return (
     <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
-        <StatusBar backgroundColor={'#5176C2'} />
+      <StatusBar backgroundColor={'#5176C2'} />
       <View style={styles.card}>
         <ImageBackground
           style={styles.dashbordcard}
@@ -68,13 +66,12 @@ const [balance,setBalance]=useState('7900.00')
                 }}>
                 Fighter Girl
               </Text>
-<TouchableOpacity onPress={() => navigation.openDrawer()}>
-<Image
-                style={{height: 24, width: 24, marginLeft: 160}}
-                source={require('../assets/drawer.png')}
-              />
-</TouchableOpacity>
-            
+              <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <Image
+                  style={{height: 24, width: 24, marginLeft: 160}}
+                  source={require('../assets/drawer.png')}
+                />
+              </TouchableOpacity>
             </View>
             <Text style={{color: 'white', marginTop: 30}}>
               Available Balance
@@ -88,22 +85,11 @@ const [balance,setBalance]=useState('7900.00')
                   fontSize: 24,
                   fontWeight: 'bold',
                 }}>
-             Rs {balance}
+                Rs {balance}
               </Text>
 
               <View style={{flex: 1}}>
-                <TouchableOpacity
-                  onPress={toggleModal}
-                  style={{
-                    backgroundColor: 'white',
-                    height: 20,
-                    marginLeft: 10,
-                    marginTop:5,
-                    width: 20,
-                    alignItems: 'center',
-                    borderRadius: 10,
-                    justifyContent: 'center',
-                  }}>
+                <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
                   <Image
                     style={{height: 12, width: 12}}
                     source={require('../assets/editbalance.png')}
@@ -111,20 +97,8 @@ const [balance,setBalance]=useState('7900.00')
                 </TouchableOpacity>
 
                 <Modal isVisible={isModalVisible}>
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <View
-                      style={{
-                        height: 250,
-                        width: Dimensions.get('window').width - 40,
-                        borderRadius: 25,
-                        paddingLeft: 10,
-                        backgroundColor: '#fff',
-                      }}>
+                  <View style={styles.modalContainer}>
+                    <View style={styles.modalCard}>
                       <View
                         style={{
                           height: 60,
@@ -176,12 +150,11 @@ const [balance,setBalance]=useState('7900.00')
                             fontSize: 22,
                             fontWeight: 'bold',
                           }}
-                          placeholderTextColor= 'grey'
+                          placeholderTextColor="grey"
                           cursorColor={'black'}
                           onChangeText={text => setBalance(text)}
                           value={balance}
                           keyboardType="numeric"
-                       
                         />
                       </View>
                       <TouchableOpacity
@@ -208,32 +181,21 @@ const [balance,setBalance]=useState('7900.00')
                 marginTop: 20,
                 justifyContent: 'space-around',
               }}>
-              <TouchableOpacity style={styles.incomeExpenseCard} onPress={()=>{navigation.navigate('AddRecord')}}>
-                <Text
-                  style={{color: '#233A6B', fontSize: 16, fontWeight: '900'}}>
-                  + Add income
-                </Text>
+              <TouchableOpacity
+                style={styles.incomeExpenseCard}
+                onPress={() => {
+                  navigation.navigate('AddRecord');
+                }}>
+                <Text style={styles.addIncomeExpense}>+ Add income</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.incomeExpenseCard}>
-                <Text
-                  style={{color: '#233A6B', fontSize: 16, fontWeight: '900'}}>
-                  + Add Expence
-                </Text>
+                <Text style={styles.addIncomeExpense}>+ Add Expence</Text>
               </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>
       </View>
-      <View
-        style={{
-          height: 400,
-          width: '90%',
-          alignSelf: 'center',
-          backgroundColor: 'white',
-          elevation: 5,
-          borderRadius: 10,
-          shadowColor: 'darkblue',
-        }}>
+      <View style={styles.balanceTrendCard}>
         <Text
           style={[
             styles.h1,
@@ -241,61 +203,35 @@ const [balance,setBalance]=useState('7900.00')
           ]}>
           Balance Trend
         </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            height: 50,
-            width: '90%',
-            alignSelf: 'center',
-            backgroundColor: '#5176C2',
-            borderRadius: 5,
-            marginTop: 14,
-            overflow: 'hidden',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+        <View style={styles.dayMonthYearMain}>
           <TouchableOpacity
             onPress={() => setSelected('Day')}
-            style={{
-              height: 40,
-              width: '30%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 5,
-
-              backgroundColor: selected == 'Day' ? 'white' : '#5176C2',
-            }}>
+            style={[
+              styles.shiftCards,
+              {backgroundColor: selected == 'Day' ? 'white' : '#5176C2'},
+            ]}>
             <Text style={{color: selected == 'Day' ? 'black' : 'white'}}>
               Day
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setSelected('Month')}
-            style={{
-              height: 40,
-              width: '30%',
-              borderRadius: 5,
-
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: selected == 'Month' ? 'white' : '#5176C2',
-            }}>
+            style={[
+              styles.shiftCards,
+              {
+                backgroundColor: selected == 'Month' ? 'white' : '#5176C2',
+              },
+            ]}>
             <Text style={{color: selected == 'Month' ? 'black' : 'white'}}>
               Month
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setSelected('year')}
-            style={{
-              height: 40,
-              width: '30%',
-              borderRadius: 5,
-
-              justifyContent: 'center',
-              alignItems: 'center',
-
-              backgroundColor: selected == 'year' ? 'white' : '#5176C2',
-            }}>
+            style={[
+              styles.shiftCards,
+              {backgroundColor: selected == 'year' ? 'white' : '#5176C2'},
+            ]}>
             <Text style={{color: selected == 'year' ? 'black' : 'white'}}>
               year
             </Text>
@@ -367,5 +303,56 @@ const styles = StyleSheet.create({
   profileImg: {
     height: 40,
     width: 40,
+  },
+  editIcon: {
+    backgroundColor: 'white',
+    height: 20,
+    marginLeft: 10,
+    marginTop: 5,
+    width: 20,
+    alignItems: 'center',
+    borderRadius: 10,
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalCard: {
+    height: 250,
+    width: Dimensions.get('window').width - 40,
+    borderRadius: 25,
+    paddingLeft: 10,
+    backgroundColor: '#fff',
+  },
+  addIncomeExpense: {color: '#233A6B', fontSize: 16, fontWeight: '900'},
+  balanceTrendCard: {
+    height: 400,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    elevation: 5,
+    borderRadius: 10,
+    shadowColor: 'darkblue',
+  },
+  dayMonthYearMain: {
+    flexDirection: 'row',
+    height: 50,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: '#5176C2',
+    borderRadius: 5,
+    marginTop: 14,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shiftCards: {
+    height: 40,
+    width: '30%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
   },
 });

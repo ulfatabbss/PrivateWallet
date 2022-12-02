@@ -5,9 +5,18 @@ import Header from './Header';
 
 
 
+
+const Catagories = ({navigation}) => {
+  const [data,setData]=useState(AllCategories);
+  useEffect(() => {
+    const searchedCat =  data.filter(
+      (item) => item.name.toLowerCase())
+      setData(searchedCat)
+}, []);
+
 const myCategories = ({item}) => (
   <View style={{justifyContent:'center',alignItems:'center'}} >
-<TouchableOpacity style={styles.categoryCard} >
+<TouchableOpacity style={styles.categoryCard} onPress={()=>{navigation.navigate('AddRecord',{cat:item.name})}} >
   <View style={{flexDirection:'row'}}>
   <Image
       resizeMode="contain"
@@ -36,13 +45,6 @@ const myCategories = ({item}) => (
   </View>
  
 );
-const Catagories = ({navigation}) => {
-  const [data,setData]=useState(AllCategories);
-  useEffect(() => {
-    const searchedCat =  data.filter(
-      (item) => item.name.toLowerCase())
-      setData(searchedCat)
-}, []);
   return (
     <View style={styles.container}>
        <StatusBar barStyle="dark-content" backgroundColor="white" />

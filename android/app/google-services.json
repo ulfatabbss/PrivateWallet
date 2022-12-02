@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "935802188310",
-    "project_id": "private-wallet-e28d0",
-    "storage_bucket": "private-wallet-e28d0.appspot.com"
+    "project_number": "844908182739",
+    "project_id": "private-wallet-9d896",
+    "storage_bucket": "private-wallet-9d896.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:935802188310:android:58194dade1b447c074fb37",
+        "mobilesdk_app_id": "1:844908182739:android:318fc55c208640d2d9e826",
         "android_client_info": {
           "package_name": "com.e_wallet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "935802188310-nld71tu24b8l2229lshc27vcaii3shr8.apps.googleusercontent.com",
+          "client_id": "844908182739-60msl55bononehor06efvrspru2nft9i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCs9fxHeJrG5-CMbYV3q4FfWs8pBh9IqfE"
+          "current_key": "AIzaSyBCVwia_LbK2-75KHU4As_V-VndiOciKSE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "935802188310-nld71tu24b8l2229lshc27vcaii3shr8.apps.googleusercontent.com",
+              "client_id": "844908182739-60msl55bononehor06efvrspru2nft9i.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

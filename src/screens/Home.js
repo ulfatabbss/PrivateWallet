@@ -10,22 +10,41 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {ScrollView} from 'react-native-virtualized-view';
 import Modal from 'react-native-modal';
 import {useState} from 'react';
 import {button} from '../utilis/style';
 import Graph from '../components/Graph';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {AllCategories} from '../utilis/catData';
 const Home = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
+const [name,setName]=useState('')
+const [img,setImge]=useState('')
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        console.log('User data: ', documentSnapshot.data());
+        // setEmail(documentSnapshot.data().email)
+        setImge(documentSnapshot.data().userImg)
+        setName(documentSnapshot.data().name)
+      });
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, [auth().currentUser.uid,img]);
+
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   const [selected, setSelected] = useState('Day');
-  const [balance, setBalance] = useState('7900.00');
+  const [balance, setBalance] = useState('0');
   const myCategories = ({item}) => (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity style={styles.categoryCard}>
@@ -55,7 +74,7 @@ const Home = ({navigation}) => {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
                 style={styles.profileImg}
-                source={require('../assets/profileimg.png')}
+                source={{uri:img}}
               />
               <Text
                 style={{
@@ -64,7 +83,7 @@ const Home = ({navigation}) => {
                   marginLeft: 12,
                   fontWeight: '600',
                 }}>
-                Fighter Girl
+             {name}
               </Text>
               <TouchableOpacity onPress={() => navigation.openDrawer()}>
                 <Image
@@ -88,7 +107,7 @@ const Home = ({navigation}) => {
                 Rs {balance}
               </Text>
 
-              <View style={{flex: 1}}>
+              {/* <View style={{flex: 1}}>
                 <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
                   <Image
                     style={{height: 12, width: 12}}
@@ -172,7 +191,7 @@ const Home = ({navigation}) => {
                     </View>
                   </View>
                 </Modal>
-              </View>
+              </View> */}
             </View>
             <View
               style={{
@@ -303,6 +322,7 @@ const styles = StyleSheet.create({
   profileImg: {
     height: 40,
     width: 40,
+    borderRadius:20
   },
   editIcon: {
     backgroundColor: 'white',

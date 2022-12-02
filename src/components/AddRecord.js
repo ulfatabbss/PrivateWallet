@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View ,Dimensions,ImageBackground,StatusBar,TouchableOpacity,Image,Modal,Alert,Pressable} from 'react-native'
 import React,{useEffect,useState} from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker';
-const AddRecord = ({navigation}) => {
+import { TextInput } from 'react-native';
+const AddRecord = ({navigation,route}) => {
+  const cat=route.params
   const [selected, setSelected] = useState('Expense');
+  const [balance, setBalance] = useState('0');
+  const [categ, setCategory] = useState('');
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -23,7 +27,10 @@ const AddRecord = ({navigation}) => {
   }; 
   useEffect(()=>{
     console.log('date',date.toLocaleString())
-  },[date])
+    console.log(JSON.stringify(cat))
+    const set=(JSON.stringify(cat))
+    setCategory(set)
+  },[date,cat])
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
   <StatusBar barStyle="light-content" backgroundColor={ selected == 'Expense' ? '#5176C2' : '#FFB841'} />
@@ -90,7 +97,7 @@ const AddRecord = ({navigation}) => {
           </View>
           <View style={{flexDirection:'row',marginTop:20,marginHorizontal:30,alignItems:'center',justifyContent:'space-between'}}>
 <Text style={{fontSize:22,fontWeight:'bold',color:'#fff'}}>PKR</Text>
-<Text style={{fontSize:22,fontWeight:'bold',color:'#F8F8F8'}}>{selected == 'Expense' ? '-250.5' : '+600.5'}</Text>
+<TextInput placeholder={balance} style={{fontSize:22,fontWeight:'bold',color:'#F8F8F8'}}/>
             </View>
           </View>
         </View>
@@ -102,12 +109,12 @@ const AddRecord = ({navigation}) => {
 <Image resizeMode='contain' style={{height:24,width:24}} source={require('../assets/money.png')}/>
 <View style={{marginLeft:20}}>
 <Text style={styles.cattex}>
-Account
+Amount
   </Text>
 </View>
 </View>
 <View style={{flexDirection:'row',alignItems:'center'}}>
-<Text style={{color:'grey',fontSize:16,fontWeight:'600',marginRight:20}}>Cash</Text>
+<Text style={{color:'grey',fontSize:16,fontWeight:'600',marginRight:20}}>{balance}</Text>
 <Image resizeMode='contain' style={{height:16,width:16}} source={require('../assets/forwordArrow.png')}/>
 </View>
       </TouchableOpacity>
@@ -122,7 +129,7 @@ Category
 
 </View>
 <View style={{flexDirection:'row',alignItems:'center'}}>
-<Text style={{color:'grey',fontSize:16,fontWeight:'600',marginRight:20}}>Required</Text>
+<Text style={{color:'grey',fontSize:16,fontWeight:'600',marginRight:20}}>{categ==undefined||null?"Required":"Complted"}</Text>
 <Image resizeMode='contain' style={{height:16,width:16}} source={require('../assets/forwordArrow.png')}/>
 </View>
       </TouchableOpacity>

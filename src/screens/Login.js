@@ -27,7 +27,7 @@ const Login = ({navigation}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [email, setEmail] = useState('salim');
-  const [password, setPassword] = useState('null');
+  const [password, setPassword] = useState('123456');
   const [error, SetError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const Check = () => {

@@ -6,11 +6,28 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React from 'react';
-import {ScrollView} from 'react-native-virtualized-view';
+import React,{useState,useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
-
+import {ScrollView} from 'react-native-virtualized-view';
+import firestore from '@react-native-firebase/firestore';
 const Profile = ({navigation}) => {
+  const [name,setName]=useState('')
+  const [email,setEmail]=useState('')
+const [img,setImge]=useState('')
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        console.log('User data: ', documentSnapshot.data());
+        setEmail(documentSnapshot.data().email)
+        setImge(documentSnapshot.data().userImg)
+        setName(documentSnapshot.data().name)
+      });
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, [auth().currentUser.uid]);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.card}>
@@ -20,24 +37,24 @@ const Profile = ({navigation}) => {
           source={require('../assets/dashbordCard.png')}>
           <Image
             source={{
-              uri: 'https://i.pinimg.com/236x/20/4a/78/204a789a19f8e97fcb2e65ffd554bfc7.jpg',
+              uri: img
             }}
             style={styles.image}
           />
 
           <View>
             <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-              Sahil Sial
+            {name}
             </Text>
             <Text style={{fontSize: 14, color: '#fff', marginTop: 5}}>
-              Sahil@gmai.com
+         {auth()._user.email}
             </Text>
           </View>
         </ImageBackground>
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('EditProfile');
+          navigation.navigate('EditProfile',{imgage:img});
         }}
         style={{
           height: 60,

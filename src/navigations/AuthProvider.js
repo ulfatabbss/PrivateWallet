@@ -1,42 +1,78 @@
 import auth from '@react-native-firebase/auth';
-import AppStack from './AppStack';
+import {ToastAndroid} from 'react-native';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
+import {setIsLoggedIn, store, setReg, setUserFormData} from '../shared/redux';
+const login = ({email, password}) => {
+  const data = JSON.stringify({
+    email: email,
+    password: password,
+  });
 
-const login = ({email, password, navigation}) => {
-  auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log('signed in!');
-      //   navigation.navigate('AppStack');
-      <AppStack />;
+  const config = {
+    method: 'post',
+    url: 'https://vast-pink-crane-hem.cyclic.app/wallet/login',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      if (response.data.success == true) {
+        ToastAndroid.showWithGravity(
+          response.data.msg,
+          ToastAndroid.LONG,
+          ToastAndroid.CENTER,
+        );
+        store.dispatch(setIsLoggedIn(true));
+        store.dispatch(setUserFormData(response.data));
+      } else {
+        console.log(JSON.stringify(response.data));
+        ToastAndroid.showWithGravity(
+          response.data.msg,
+          ToastAndroid.LONG,
+          ToastAndroid.CENTER,
+        );
+      }
+      console.log(JSON.stringify(response.data));
     })
-    .catch(error => {
-      if (error.code === 'auth/email-already-in-use') {
-        console.log('That email address is already in use!');
-      }
-
-      if (error.code === 'auth/invalid-email') {
-        console.log('That email address is invalid!');
-      }
-
-      console.error(error);
+    .catch(function (error) {
+      ToastAndroid.showWithGravity(
+        error,
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+      );
+      console.log('ddddddddd', error);
     });
 };
-const register = ({email, password}) => {
-  auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log('User account created & signed in!');
+const register = ({name, email, password, navigation}) => {
+  const data = JSON.stringify({
+    name: name,
+    email: email,
+    password: password,
+  });
+
+  const config = {
+    method: 'post',
+    url: 'https://vast-pink-crane-hem.cyclic.app/wallet/register',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      if (response.data.success == true) {
+        store.dispatch(setReg(true));
+        store.dispatch(setUserFormData(response.data));
+        console.log(JSON.stringify(response.data.success));
+      }
     })
-    .catch(error => {
-      if (error.code === 'auth/email-already-in-use') {
-        console.log('That email address is already in use!');
-      }
-
-      if (error.code === 'auth/invalid-email') {
-        console.log('That email address is invalid!');
-      }
-
-      console.error(error);
+    .catch(function (error) {
+      console.log(error);
     });
 };
 export {login, register};

@@ -17,15 +17,16 @@ import {useState} from 'react';
 import {button} from '../utilis/style';
 import Graph from '../components/Graph';
 import {AllCategories} from '../utilis/catData';
+import {useSelector} from 'react-redux';
 const Home = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
+  const {userFormData} = useSelector(state => state.root.user);
   const [selected, setSelected] = useState('Day');
-  const [balance, setBalance] = useState('7900.00');
+  const [balance, setBalance] = useState('0');
   const myCategories = ({item}) => (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity style={styles.categoryCard}>
@@ -64,19 +65,12 @@ const Home = ({navigation}) => {
                   marginLeft: 12,
                   fontWeight: '600',
                 }}>
-                Fighter Girl
+                {userFormData.data.name}
               </Text>
-              <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                <Image
-                  style={{height: 24, width: 24, marginLeft: 160}}
-                  source={require('../assets/drawer.png')}
-                />
-              </TouchableOpacity>
             </View>
             <Text style={{color: 'white', marginTop: 30}}>
               Available Balance
             </Text>
-
             <View style={{flexDirection: 'row'}}>
               <Text
                 style={{
@@ -85,16 +79,16 @@ const Home = ({navigation}) => {
                   fontSize: 24,
                   fontWeight: 'bold',
                 }}>
-                Rs {balance}
+                Rs. {balance}
               </Text>
 
               <View style={{flex: 1}}>
-                <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
+                {/* <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
                   <Image
                     style={{height: 12, width: 12}}
                     source={require('../assets/editbalance.png')}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <Modal isVisible={isModalVisible}>
                   <View style={styles.modalContainer}>

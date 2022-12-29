@@ -8,9 +8,12 @@ import {
 } from 'react-native';
 import React from 'react';
 import {ScrollView} from 'react-native-virtualized-view';
-import auth from '@react-native-firebase/auth';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {setIsLoggedIn} from '../shared/redux';
 const Profile = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {userFormData} = useSelector(state => state.root.user);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.card}>
@@ -27,10 +30,10 @@ const Profile = ({navigation}) => {
 
           <View>
             <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-              Sahil Sial
+              {userFormData.data.name}
             </Text>
             <Text style={{fontSize: 14, color: '#fff', marginTop: 5}}>
-              Sahil@gmai.com
+              {userFormData.data.email}
             </Text>
           </View>
         </ImageBackground>
@@ -165,7 +168,7 @@ const Profile = ({navigation}) => {
           flexDirection: 'row',
         }}
         onPress={() => {
-          auth().signOut();
+          dispatch(setIsLoggedIn(false));
         }}>
         <Image
           resizeMode="contain"

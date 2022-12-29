@@ -36,7 +36,7 @@ const SignupSuccessfuly = ({navigation}) => {
       </Text>
       <TouchableOpacity
         style={button}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => navigation.replace('Login')}>
         <Text style={{color: '#fff', fontSize: 20}}>Done</Text>
       </TouchableOpacity>
     </View>

@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   Switch,
+  ToastAndroid,
 } from 'react-native';
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
@@ -18,20 +19,33 @@ import {
   PORTRAIT,
   LANDSCAPE,
 } from 'react-native-orientation-locker';
+
 import React, {useState} from 'react';
 import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
 import Header from '../components/Header';
 import {login} from '../navigations/AuthProvider';
+import {useDispatch} from 'react-redux';
+import Toast from 'react-native-toast-message';
+import {setIsLoggedIn} from '../shared/redux';
+import {ActivityIndicator} from 'react-native';
 const Login = ({navigation}) => {
+  const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const [email, setEmail] = useState('salim');
-  const [password, setPassword] = useState('null');
+  const [email, setEmail] = useState('admin1@gmail.com');
+  const [password, setPassword] = useState('12345678');
   const [error, SetError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
-  const Check = () => {
+  const [loading, setLoading] = useState(false);
+  const Check = async () => {
+    setLoading(true);
     if (email == null && password == null) {
+      ToastAndroid.showWithGravity(
+        'All fields are required 🙁',
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+      );
       setPasswordError('✵Password Required');
       SetError('✵Email Required');
     } else if (password == null) {
@@ -39,10 +53,18 @@ const Login = ({navigation}) => {
     } else if (email == null) {
       SetError('*Email required*');
     } else {
-      login({email, password, navigation});
-      // navigation.replace('MyTabs');
+      login({email, password});
+
+      // navigation.replace('AppStack');
     }
   };
+  if (loading) {
+    return (
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator size={'large'} color={'red'} />
+      </View>
+    );
+  }
   return (
     <MyWrapper>
       <SafeAreaView
@@ -55,16 +77,14 @@ const Login = ({navigation}) => {
         <StatusBar backgroundColor={'#84A0DD'} />
         <View
           style={{
-            height: '40%',
+            height: '35%',
             width: Width,
             justifyContent: 'center',
           }}>
           <ImageBackground
             style={{height: '110%', width: Width, top: 15}}
             source={require('../assets/login1.png')}
-            resizeMode={'contain'}>
-            <Header navigation={navigation} text={''} color={'#fff'} />
-          </ImageBackground>
+            resizeMode={'contain'}></ImageBackground>
         </View>
         <View style={styles.loginCard}>
           <Text

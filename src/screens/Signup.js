@@ -10,7 +10,7 @@ import {
   Image,
   TextInput,
 } from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
 import {useState, useEffect} from 'react';
@@ -20,6 +20,7 @@ import {useSelector} from 'react-redux';
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const Signup = ({navigation}) => {
+  const {register} = useContext(AuthContext);
   const [name, setName] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -10,16 +10,34 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView} from 'react-native-virtualized-view';
 import Modal from 'react-native-modal';
 import {useState} from 'react';
 import {button} from '../utilis/style';
 import Graph from '../components/Graph';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {AllCategories} from '../utilis/catData';
 import {useSelector} from 'react-redux';
 const Home = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState('');
+  const [img, setImge] = useState('');
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        console.log('User data: ', documentSnapshot.data());
+        // setEmail(documentSnapshot.data().email)
+        setImge(documentSnapshot.data().userImg);
+        setName(documentSnapshot.data().name);
+      });
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, [auth().currentUser.uid, img]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -54,10 +72,7 @@ const Home = ({navigation}) => {
           source={require('../assets/dashbordCard.png')}>
           <View style={{padding: 10}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image
-                style={styles.profileImg}
-                source={require('../assets/profileimg.png')}
-              />
+              <Image style={styles.profileImg} source={{uri: img}} />
               <Text
                 style={{
                   fontSize: 16,
@@ -297,6 +312,7 @@ const styles = StyleSheet.create({
   profileImg: {
     height: 40,
     width: 40,
+    borderRadius: 20,
   },
   editIcon: {
     backgroundColor: 'white',

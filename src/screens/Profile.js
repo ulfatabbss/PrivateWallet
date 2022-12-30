@@ -23,7 +23,7 @@ const Profile = ({navigation}) => {
           source={require('../assets/dashbordCard.png')}>
           <Image
             source={{
-              uri: 'https://i.pinimg.com/236x/20/4a/78/204a789a19f8e97fcb2e65ffd554bfc7.jpg',
+              uri: img,
             }}
             style={styles.image}
           />
@@ -40,7 +40,7 @@ const Profile = ({navigation}) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('EditProfile');
+          navigation.navigate('EditProfile', {imgage: img});
         }}
         style={{
           height: 60,

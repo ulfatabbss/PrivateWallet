@@ -7,34 +7,65 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import Modal from 'react-native-modal';
 import React from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Dimensions} from 'react-native';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+const EditProfile = ({navigation}) => {
+  const [name,setName]=useState('')
+  const [email,setEmail]=useState('')
 
-const EditProfile = () => {
-  const [img, setImg] = useState(
-    'https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Ym9keWJ1aWxkaW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-  );
+const [img,setImge]=useState(null)
+const [password,setPassword]=useState('')
+const updateProfile=()=>{
+ 
+  if (!email || !password || !name ) {
+    alert("All fields are mandatory");
+    return;
+}
+  firestore().collection('users').doc(auth().currentUser.uid)
+  .update({
+  email:email,
+  createdAt: firestore.Timestamp.fromDate(new Date()),
+  userImg:img,
+  name:name,
+  password:password, 
+  })
+  navigation.navigate('Profile')
+}
+// useEffect(() => {
+//   const subscriber = firestore()
+//   .collection('users')
+//   .doc(auth().currentUser.uid)
+//   .onSnapshot(documentSnapshot => {
+//     console.log('User data: ', documentSnapshot.data());
+//     setImge(documentSnapshot.data().userImg)
+//   });
+  
+//   // Stop listening for updates when no longer required
+//   return () => subscriber();
+//   }, [auth().currentUser.uid]);
 
   const handleImage = async () => {
     let options = {};
     const resultImg = await launchImageLibrary(options);
-    setImg(resultImg.assets[0]?.uri);
+    setImge(resultImg.assets[0]?.uri);
   };
 
   const handleCamera = async () => {
     let options = {};
     const resultCam = await launchCamera(options);
 
-    setImg(resultCam.assets[0]?.uri);
+    setImge(resultCam.assets[0]?.uri);
   };
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -109,14 +140,17 @@ const EditProfile = () => {
           style={{paddingHorizontal: 20, color: '#000'}}
           placeholder="Sahil Sial"
           placeholderTextColor={'grey'}
+          onChangeText={text => setName(text)}
         />
       </View>
       <Text style={styles.text}>Email</Text>
       <View style={styles.textfield}>
         <TextInput
+        
           style={{paddingHorizontal: 20, color: '#000'}}
           placeholder="test@yahoo.com"
           placeholderTextColor={'grey'}
+          onChangeText={text => setEmail(text)}
         />
       </View>
       <Text style={styles.text}>Password</Text>
@@ -125,9 +159,10 @@ const EditProfile = () => {
           style={{paddingHorizontal: 20, color: '#000'}}
           placeholder="***********"
           placeholderTextColor={'grey'}
+          onChangeText={text => setPassword(text)}
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={()=>{updateProfile()}}>
         <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
           Done
         </Text>
@@ -154,6 +189,7 @@ const styles = StyleSheet.create({
     width: 150,
     borderRadius: 75,
     marginBottom: -100,
+    borderWidth:4,borderColor:'grey',
   },
   textfield: {
     height: 50,

@@ -17,6 +17,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {useSelector} from 'react-redux';
 const AddRecord = ({navigation}) => {
   const [selected, setSelected] = useState('Expense');
+  const [balance, setBalance] = useState('0');
+  const [categ, setCategory] = useState('');
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);

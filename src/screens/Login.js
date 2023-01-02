@@ -23,11 +23,8 @@ import {
 import React, {useState} from 'react';
 import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
-import Header from '../components/Header';
 import {login} from '../navigations/AuthProvider';
 import {useDispatch} from 'react-redux';
-import Toast from 'react-native-toast-message';
-import {setIsLoggedIn} from '../shared/redux';
 import {ActivityIndicator} from 'react-native';
 const Login = ({navigation}) => {
   const dispatch = useDispatch();

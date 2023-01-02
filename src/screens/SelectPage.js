@@ -7,7 +7,6 @@ import {
   StatusBar,
 } from 'react-native';
 import React from 'react';
-import Lottie from 'lottie-react-native';
 const SelectPage = ({navigation}) => {
   return (
     <View style={{flex: 1, backgroundColor: '#5176C2', alignItems: 'center'}}>

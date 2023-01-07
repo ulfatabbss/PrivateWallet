@@ -10,11 +10,13 @@ import {
   Image,
   TextInput,
 } from 'react-native';
-import React,{useContext} from 'react';
+import React, {useContext} from 'react';
 import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
-import {AuthContext} from '../navigations/AuthProvider';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {register} from '../navigations/AuthProvider';
+import {useSelector} from 'react-redux';
+
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const Signup = ({navigation}) => {
@@ -23,11 +25,13 @@ const Signup = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState(null);
+  const {reg} = useSelector(state => state.root.user);
   const [nameError, setNameError] = useState('#5176C2');
   const [emailError, setEmailError] = useState('#5176C2');
   const [passwordError, setPasswordError] = useState('#5176C2');
   const [confirmPasswordError, setConfirmPasswordError] = useState('#5176C2');
-  const Check = () => {
+
+  const Check = async () => {
     if (
       name == null ||
       email == null ||
@@ -42,21 +46,16 @@ const Signup = ({navigation}) => {
       setEmail(null);
       setPassword(null);
       setConfirmPassword(null);
-      // } else if (name == null) {
-      //   setNameError('red');
-      // } else if (email == null) {
-      //   setEmailError('red');
-      // } else if (password == null) {
-      //   setPasswordError('red');
-      // } else if (confirmPassword == null) {
-      //   setConfirmPasswordError('red');
     } else {
-      register(name,email,password);
+      await register({name, email, password, navigation});
+      console.log(reg, 'hey');
+      if (reg == true) {
+        navigation.replace('SignupSuccessfuly');
+      }
       setName(null);
       setEmail(null);
       setPassword(null);
       setConfirmPassword(null);
-      // navigation.navigate('SignupSuccessfuly');
     }
   };
   return (

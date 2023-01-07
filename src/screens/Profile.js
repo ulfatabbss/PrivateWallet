@@ -6,28 +6,14 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React,{useState,useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
+import React from 'react';
 import {ScrollView} from 'react-native-virtualized-view';
-import firestore from '@react-native-firebase/firestore';
-const Profile = ({navigation}) => {
-  const [name,setName]=useState('')
-  const [email,setEmail]=useState('')
-const [img,setImge]=useState('')
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('users')
-      .doc(auth().currentUser.uid)
-      .onSnapshot(documentSnapshot => {
-        console.log('User data: ', documentSnapshot.data());
-        setEmail(documentSnapshot.data().email)
-        setImge(documentSnapshot.data().userImg)
-        setName(documentSnapshot.data().name)
-      });
 
-    // Stop listening for updates when no longer required
-    return () => subscriber();
-  }, [auth().currentUser.uid]);
+import {useDispatch, useSelector} from 'react-redux';
+import {setIsLoggedIn} from '../shared/redux';
+const Profile = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {userFormData} = useSelector(state => state.root.user);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.card}>
@@ -37,24 +23,24 @@ const [img,setImge]=useState('')
           source={require('../assets/dashbordCard.png')}>
           <Image
             source={{
-              uri: img
+              uri: img,
             }}
             style={styles.image}
           />
 
           <View>
             <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-            {name}
+              {userFormData.data.name}
             </Text>
             <Text style={{fontSize: 14, color: '#fff', marginTop: 5}}>
-         {auth()._user.email}
+              {userFormData.data.email}
             </Text>
           </View>
         </ImageBackground>
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('EditProfile',{imgage:img});
+          navigation.navigate('EditProfile', {imgage: img});
         }}
         style={{
           height: 60,
@@ -182,7 +168,7 @@ const [img,setImge]=useState('')
           flexDirection: 'row',
         }}
         onPress={() => {
-          auth().signOut();
+          dispatch(setIsLoggedIn(false));
         }}>
         <Image
           resizeMode="contain"

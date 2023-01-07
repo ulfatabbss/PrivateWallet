@@ -10,7 +10,7 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView} from 'react-native-virtualized-view';
 import Modal from 'react-native-modal';
 import {useState} from 'react';
@@ -19,10 +19,11 @@ import Graph from '../components/Graph';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {AllCategories} from '../utilis/catData';
+import {useSelector} from 'react-redux';
 const Home = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
-const [name,setName]=useState('')
-const [img,setImge]=useState('')
+  const [name, setName] = useState('');
+  const [img, setImge] = useState('');
   useEffect(() => {
     const subscriber = firestore()
       .collection('users')
@@ -30,19 +31,18 @@ const [img,setImge]=useState('')
       .onSnapshot(documentSnapshot => {
         console.log('User data: ', documentSnapshot.data());
         // setEmail(documentSnapshot.data().email)
-        setImge(documentSnapshot.data().userImg)
-        setName(documentSnapshot.data().name)
+        setImge(documentSnapshot.data().userImg);
+        setName(documentSnapshot.data().name);
       });
 
     // Stop listening for updates when no longer required
     return () => subscriber();
-  }, [auth().currentUser.uid,img]);
-
+  }, [auth().currentUser.uid, img]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
+  const {userFormData} = useSelector(state => state.root.user);
   const [selected, setSelected] = useState('Day');
   const [balance, setBalance] = useState('0');
   const myCategories = ({item}) => (
@@ -72,10 +72,7 @@ const [img,setImge]=useState('')
           source={require('../assets/dashbordCard.png')}>
           <View style={{padding: 10}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image
-                style={styles.profileImg}
-                source={{uri:img}}
-              />
+              <Image style={styles.profileImg} source={{uri: img}} />
               <Text
                 style={{
                   fontSize: 16,
@@ -83,19 +80,12 @@ const [img,setImge]=useState('')
                   marginLeft: 12,
                   fontWeight: '600',
                 }}>
-             {name}
+                {userFormData.data.name}
               </Text>
-              <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                <Image
-                  style={{height: 24, width: 24, marginLeft: 160}}
-                  source={require('../assets/drawer.png')}
-                />
-              </TouchableOpacity>
             </View>
             <Text style={{color: 'white', marginTop: 30}}>
               Available Balance
             </Text>
-
             <View style={{flexDirection: 'row'}}>
               <Text
                 style={{
@@ -104,16 +94,16 @@ const [img,setImge]=useState('')
                   fontSize: 24,
                   fontWeight: 'bold',
                 }}>
-                Rs {balance}
+                Rs. {balance}
               </Text>
 
-              {/* <View style={{flex: 1}}>
-                <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
+              <View style={{flex: 1}}>
+                {/* <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
                   <Image
                     style={{height: 12, width: 12}}
                     source={require('../assets/editbalance.png')}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <Modal isVisible={isModalVisible}>
                   <View style={styles.modalContainer}>
@@ -191,7 +181,7 @@ const [img,setImge]=useState('')
                     </View>
                   </View>
                 </Modal>
-              </View> */}
+              </View>
             </View>
             <View
               style={{
@@ -322,7 +312,7 @@ const styles = StyleSheet.create({
   profileImg: {
     height: 40,
     width: 40,
-    borderRadius:20
+    borderRadius: 20,
   },
   editIcon: {
     backgroundColor: 'white',

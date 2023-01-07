@@ -2,7 +2,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {persistor, store} from './src/shared/redux/store';
-import {Provider} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import Routes from './src/Routes/Routes';
 

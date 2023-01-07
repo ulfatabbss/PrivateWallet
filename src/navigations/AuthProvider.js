@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { GoogleSignin} from '@react-native-google-signin/google-signin';
+import axios from 'axios';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -13,52 +14,30 @@ export const AuthProvider = ({ children }) => {
         user,
         setUser,
         login: async (email, password) => {
-          try {
-            setIsLoading(true);
-            await auth().signInWithEmailAndPassword(email, password);
-            console.log('current User', auth().currentUser);
-            setIsLoading(false);
-          } catch (e) {
-            alert(e);
-            setIsLoading(false);
-          }
-        },
-        googleLogin: async () => {
-          GoogleSignin.configure({
-            webClientId: '297191463032-43rpfe3huj4t3j4862fm7u1ridan25ls.apps.googleusercontent.com',
+          setIsLoading(true)
+          var data = JSON.stringify({
+            "email": email,
+            "password": password
           });
-          try {
-            const { idToken } = await GoogleSignin.signIn();
-            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-            await auth().signInWithCredential(googleCredential)
-              // Use it only when user Sign's up, 
-              // so create different social signup function
-              .then(() => {
-                //Once the user creation has happened successfully, we can add the currentUser into firestore
-                //with the appropriate details.
-                console.log('current User', auth().currentUser);
-                firestore().collection('users').doc(auth().currentUser.uid)
-                .set({
-                    name:auth().currentUser.displayName,
-                    email: auth().currentUser.email,
-                    createdAt: firestore.Timestamp.fromDate(new Date()),
-                    userImg: auth().currentUser.photoURL,
-                })
-                // ensure we catch any errors at this stage to advise us if something does go wrong
-                .catch(error => {
-                    console.log('Something went wrong with added user to firestore: ', error);
-                    alert(error);
-                })
-              })
-              //we need to catch the whole sign up process if it fails too.
-              .catch(error => {
-                console.log('Something went wrong with sign up: ', error);
-                alert(error);
-              });
-          } catch (error) {
-            alert(error);
-            console.log({ error });
-          }
+          
+          var config = {
+            method: 'post',
+            url: 'https://webevis-wallet.up.railway.app/wallet/login',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            setIsLoading(false)
+          })
+          .catch(function (error) {
+            console.log(error);
+            setIsLoading(false)
+          });
         },
 
         register: async (name, email, password) => {

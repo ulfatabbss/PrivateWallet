@@ -1,8 +1,5 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
-import SelectPage from '../screens/SelectPage';
-import GetStartScreen from '../screens/GetStartScreen';
-import SplashScreen from '../screens/SplashScreen';
 import Home from '../screens/Home';
 import Statistics from '../screens/Statistics';
 import Profile from '../screens/Profile';
@@ -15,11 +12,6 @@ import AddRecord from '../components/AddRecord';
 import Catagories from '../components/Catagories';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Login from '../screens/Login';
-import Signup from '../screens/Signup';
-import Verify from '../screens/Verify';
-import ForgotPassword from '../screens/ForgotPassword';
-import ConfirmPassword from '../screens/ConfirmPassword';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -185,14 +177,6 @@ function MyTabs() {
 const AppStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="GetStartScreen" component={GetStartScreen} /> */}
-      {/* <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
-      <Stack.Screen name="Verify" component={Verify} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="ConfirmPassword" component={ConfirmPassword} /> */}
-      {/* <Stack.Screen name="SelectPage" component={SelectPage} /> */}
       <Stack.Screen name="MyTabs" component={MyTabs} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Statistics" component={Statistics} />

@@ -11,9 +11,10 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useContext} from 'react';
-import {button} from '../utilis/style';
+import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {register} from '../navigations/AuthProvider';
 import {useSelector} from 'react-redux';
 
 const Width = Dimensions.get('window').width;

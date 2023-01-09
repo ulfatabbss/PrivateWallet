@@ -8,6 +8,7 @@ const initialState: any = {
   isLoggedIn: false,
   userFormData: null,
   colorCode: '#19383A',
+  totalAmount:null
 };
 
 export const userReducer = createSlice({
@@ -16,6 +17,9 @@ export const userReducer = createSlice({
   reducers: {
     setReg: (state, action) => {
       state.reg = action.payload;
+    },
+    setTotalAmount: (state, action) => {
+      state.totalAmount = action.payload;
     },
     setAuthToken: (state, action) => {
       state.authToken = action.payload;
@@ -53,6 +57,7 @@ export const {
   setAuthToken,
   setIsLoggedIn,
   setUserFormData,
+  setTotalAmount,
 } = userReducer.actions;
 
 export default userReducer.reducer;

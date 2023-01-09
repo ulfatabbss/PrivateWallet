@@ -1,5 +1,4 @@
 import React, {createContext, useState} from 'react';
-import auth from '@react-native-firebase/auth';
 import {ToastAndroid} from 'react-native';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
@@ -23,7 +22,7 @@ const login = ({email, password}) => {
     .then(function (response) {
       if (response.data.success == true) {
         ToastAndroid.showWithGravity(
-          response.data.msg,
+          response.data.msg,  
           ToastAndroid.LONG,
           ToastAndroid.CENTER,
         );

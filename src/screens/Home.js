@@ -10,47 +10,53 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import React, {useEffect} from 'react';
-import {ScrollView} from 'react-native-virtualized-view';
+import React, { useEffect } from 'react';
+import { ScrollView } from 'react-native-virtualized-view';
 import Modal from 'react-native-modal';
-import {useState} from 'react';
-import {button} from '../utilis/style';
+import { useState } from 'react';
+import { button } from '../utilis/style';
 import Graph from '../components/Graph';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import {AllCategories} from '../utilis/catData';
-import {useSelector} from 'react-redux';
-const Home = ({navigation}) => {
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState('');
-  const [img, setImge] = useState('');
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('users')
-      .doc(auth().currentUser.uid)
-      .onSnapshot(documentSnapshot => {
-        console.log('User data: ', documentSnapshot.data());
-        // setEmail(documentSnapshot.data().email)
-        setImge(documentSnapshot.data().userImg);
-        setName(documentSnapshot.data().name);
-      });
 
-    // Stop listening for updates when no longer required
-    return () => subscriber();
-  }, [auth().currentUser.uid, img]);
+import { AllCategories } from '../utilis/catData';
+import { useSelector } from 'react-redux';
+import { getAmount } from '../shared/services/UserService';
+import { toastMessage } from '../shared/utils/constants';
+import { ActivityIndicator } from 'react-native';
+import { setTotalAmount, store } from '../shared/redux';
+const Home = ({ navigation }) => {
+  const { userFormData, totalAmount } = useSelector(state => state.root.user);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+    setLoading(true)
+    totalAmount;
+    const id = userFormData.data._id;
+    console.log(userFormData);
+    getAmount(id)
+      .then(({ data }) => {
+        // console.log(data,"dataaaaaaaaaaaaaaaaaaaaaaaaaa");
+        store.dispatch(setTotalAmount(data.data));
+      })
+      .catch(err => {
+        toastMessage('error', err?.response?.data?.message);
+      })
+      .finally(() => setLoading(false));
+  }, [])
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-  const {userFormData} = useSelector(state => state.root.user);
+
   const [selected, setSelected] = useState('Day');
   const [balance, setBalance] = useState('0');
-  const myCategories = ({item}) => (
-    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+  const myCategories = ({ item }) => (
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <TouchableOpacity style={styles.categoryCard}>
         <Image
           resizeMode="contain"
-          style={{height: 30, width: 30}}
+          style={{ height: 30, width: 30 }}
           source={item.img}></Image>
       </TouchableOpacity>
       <Text
@@ -63,16 +69,24 @@ const Home = ({navigation}) => {
       </Text>
     </View>
   );
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator size={'large'} color={'red'} />
+      </View>
+    );
+  }
   return (
-    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+    <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
       <StatusBar backgroundColor={'#5176C2'} />
       <View style={styles.card}>
         <ImageBackground
           style={styles.dashbordcard}
           source={require('../assets/dashbordCard.png')}>
-          <View style={{padding: 10}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image style={styles.profileImg} source={{uri: img}} />
+          <View style={{ padding: 10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image style={styles.profileImg} source={{ uri: 'https://img.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg?w=740&t=st=1673263018~exp=1673263618~hmac=8fc521eab22d00bb4e922c880f2189ec08f350ab3e364bfcd1239d24b7f136d6' }} />
               <Text
                 style={{
                   fontSize: 16,
@@ -83,10 +97,10 @@ const Home = ({navigation}) => {
                 {userFormData.data.name}
               </Text>
             </View>
-            <Text style={{color: 'white', marginTop: 30}}>
+            <Text style={{ color: 'white', marginTop: 30 }}>
               Available Balance
             </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={{
                   color: 'white',
@@ -97,7 +111,7 @@ const Home = ({navigation}) => {
                 Rs. {balance}
               </Text>
 
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 {/* <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
                   <Image
                     style={{height: 12, width: 12}}
@@ -127,12 +141,12 @@ const Home = ({navigation}) => {
                         </Text>
                         <TouchableOpacity onPress={toggleModal}>
                           <Image
-                            style={{height: 25, width: 25, marginRight: 10}}
+                            style={{ height: 25, width: 25, marginRight: 10 }}
                             source={require('../assets/close.png')}
                           />
                         </TouchableOpacity>
                       </View>
-                      <Text style={{color: '#000', margin: 10}}>
+                      <Text style={{ color: '#000', margin: 10 }}>
                         Avialable Balance
                       </Text>
                       <View
@@ -167,7 +181,7 @@ const Home = ({navigation}) => {
                         />
                       </View>
                       <TouchableOpacity
-                        style={[button, {height: 40, width: '80%', margin: 20}]}
+                        style={[button, { height: 40, width: '80%', margin: 20 }]}
                         onPress={toggleModal}>
                         <Text
                           style={{
@@ -208,7 +222,7 @@ const Home = ({navigation}) => {
         <Text
           style={[
             styles.h1,
-            {alignSelf: 'center', fontSize: 20, marginTop: 10},
+            { alignSelf: 'center', fontSize: 20, marginTop: 10 },
           ]}>
           Balance Trend
         </Text>
@@ -217,9 +231,9 @@ const Home = ({navigation}) => {
             onPress={() => setSelected('Day')}
             style={[
               styles.shiftCards,
-              {backgroundColor: selected == 'Day' ? 'white' : '#5176C2'},
+              { backgroundColor: selected == 'Day' ? 'white' : '#5176C2' },
             ]}>
-            <Text style={{color: selected == 'Day' ? 'black' : 'white'}}>
+            <Text style={{ color: selected == 'Day' ? 'black' : 'white' }}>
               Day
             </Text>
           </TouchableOpacity>
@@ -231,7 +245,7 @@ const Home = ({navigation}) => {
                 backgroundColor: selected == 'Month' ? 'white' : '#5176C2',
               },
             ]}>
-            <Text style={{color: selected == 'Month' ? 'black' : 'white'}}>
+            <Text style={{ color: selected == 'Month' ? 'black' : 'white' }}>
               Month
             </Text>
           </TouchableOpacity>
@@ -239,9 +253,9 @@ const Home = ({navigation}) => {
             onPress={() => setSelected('year')}
             style={[
               styles.shiftCards,
-              {backgroundColor: selected == 'year' ? 'white' : '#5176C2'},
+              { backgroundColor: selected == 'year' ? 'white' : '#5176C2' },
             ]}>
-            <Text style={{color: selected == 'year' ? 'black' : 'white'}}>
+            <Text style={{ color: selected == 'year' ? 'black' : 'white' }}>
               year
             </Text>
           </TouchableOpacity>
@@ -257,7 +271,7 @@ const Home = ({navigation}) => {
         }}>
         Category
       </Text>
-      <View style={{flex: 1, width: '94%', alignSelf: 'center', bottom: 20}}>
+      <View style={{ flex: 1, width: '94%', alignSelf: 'center', bottom: 20 }}>
         <FlatList
           renderItem={myCategories}
           data={AllCategories}
@@ -336,7 +350,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     backgroundColor: '#fff',
   },
-  addIncomeExpense: {color: '#233A6B', fontSize: 16, fontWeight: '900'},
+  addIncomeExpense: { color: '#233A6B', fontSize: 16, fontWeight: '900' },
   balanceTrendCard: {
     height: 400,
     width: '90%',

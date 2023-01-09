@@ -11,8 +11,6 @@ import {useState,useEffect} from 'react';
 import Modal from 'react-native-modal';
 import React from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 const EditProfile = ({navigation}) => {
   const [name,setName]=useState('')
   const [email,setEmail]=useState('')
@@ -25,14 +23,6 @@ const updateProfile=()=>{
     alert("All fields are mandatory");
     return;
 }
-  firestore().collection('users').doc(auth().currentUser.uid)
-  .update({
-  email:email,
-  createdAt: firestore.Timestamp.fromDate(new Date()),
-  userImg:img,
-  name:name,
-  password:password, 
-  })
   navigation.navigate('Profile')
 }
 // useEffect(() => {

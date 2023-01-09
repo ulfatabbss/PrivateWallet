@@ -19,41 +19,45 @@ import {
   PORTRAIT,
   LANDSCAPE,
 } from 'react-native-orientation-locker';
-
 import React, {useState} from 'react';
 import {button, inputText} from '../utilis/style';
 import MyWrapper from '../components/MyWrapper';
-import {login} from '../navigations/AuthProvider';
-import {useDispatch} from 'react-redux';
+import {Formik} from 'formik';
 import {ActivityIndicator} from 'react-native';
+import { LoginValidationSchema } from '../shared/exporter';
+import { loginService } from '../shared/services/UserService';
+import { toastMessage } from '../shared/utils/constants';
+import { setIsLoggedIn, setUserFormData, store } from '../shared/redux';
 const Login = ({navigation}) => {
-  const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const [email, setEmail] = useState('admin1@gmail.com');
-  const [password, setPassword] = useState('12345678');
-  const [error, SetError] = useState(null);
-  const [passwordError, setPasswordError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const Check = async () => {
-    setLoading(true);
-    if (email == null && password == null) {
-      ToastAndroid.showWithGravity(
-        'All fields are required 🙁',
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER,
-      );
-      setPasswordError('✵Password Required');
-      SetError('✵Email Required');
-    } else if (password == null) {
-      setPasswordError('✵Password Required');
-    } else if (email == null) {
-      SetError('*Email required*');
-    } else {
-      login({email, password});
+  const initialValues = {
+    email: '',
+    password: '',
+  };
+  const handleLogin = (values) => {
+    setLoading(true)
+  const obj={
+    email:values.email,
+    password:values.password
+  }
 
-      // navigation.replace('AppStack');
-    }
+    loginService(obj)
+      .then(({data}) => {
+        let responData = {
+          user: data?.user,
+        };
+        store.dispatch(setUserFormData(data));
+        
+        console.log(data,"dataaaaaaaaaaaaaaaaaaaaaaaaaa");
+        store.dispatch(setIsLoggedIn(true));
+        // dispatch(setUser(responData));
+      })
+      .catch(err => {
+        toastMessage('error', err?.response?.data?.message);
+      })
+      .finally(() => setLoading(false));
   };
   if (loading) {
     return (
@@ -64,6 +68,23 @@ const Login = ({navigation}) => {
   }
   return (
     <MyWrapper>
+       <Formik
+            initialValues={initialValues}
+            validateOnMount={true}
+              validationSchema={LoginValidationSchema}
+              onSubmit={values => {
+                console.log('values', values);
+                handleLogin(values);
+              }}>
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                isSubmitting,
+                handleSubmit,
+                setFieldValue,
+              }) => (
       <SafeAreaView
         style={{
           height: Height,
@@ -133,14 +154,18 @@ const Login = ({navigation}) => {
               Email
             </Text>
             <TextInput
-              style={{bottom: 16, height: 40, color: '#000'}}
+              style={{bottom: 15, height: 40, color: '#000'}}
+              placeholder="John@gmail.com"
+              inputTitle={'Email Address'}
+              value={values.email}
+              keyboardType="email-address"
               autoCapitalize={'none'}
-              placeholderTextColor={'#BFC0C2'}
-              onChangeText={text => setEmail(text) || SetError(null)}
-              placeholder="example@gmail.com"
+              onChangeText={handleChange('email')}
             />
+               
           </View>
-          <Text style={{color: 'red', marginLeft: 30}}>{error}</Text>
+          {(errors.email && touched.email ?
+          <Text style={styles.errors}>{errors.email}</Text>:null)}
           <View style={[inputText, {marginTop: 20}]}>
             <Text
               style={{
@@ -155,15 +180,16 @@ const Login = ({navigation}) => {
               Password
             </Text>
             <TextInput
-              style={{bottom: 16, height: 40, color: '#000'}}
-              placeholder="***********"
-              placeholderTextColor={'#BFC0C2'}
-              value={password}
-              onChangeText={text => setPassword(text) || setPasswordError(null)}
-              secureTextEntry
+              style={{bottom:15, height: 40, color: '#000'}}
+              placeholder="*********"
+              value={values.password}
+              inputTitle={'Password'}
+              onChangeText={handleChange('password')}
+              secureTextEntry={true}
             />
           </View>
-          <Text style={{color: 'red', marginLeft: 30}}>{passwordError}</Text>
+          {(errors.password && touched.password &&
+          <Text style={styles.errors}>{errors.password}</Text>)}
           <View
             style={{
               width: Width - 70,
@@ -192,7 +218,7 @@ const Login = ({navigation}) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => Check()} style={button}>
+          <TouchableOpacity onPress={() => handleSubmit()} style={button}>
             <Text style={{color: '#F8F8F8', fontSize: 20}}>Login</Text>
           </TouchableOpacity>
           <View
@@ -204,13 +230,15 @@ const Login = ({navigation}) => {
               justifyContent: 'center',
               alignSelf: 'center',
             }}>
-            <Text style={{color: 'grey'}}>Don't have an account?</Text>
+            <Text style={{color: 'grey',}}>Don't have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
               <Text style={{color: '#5176C2'}}> Signup</Text>
             </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
+        )}
+        </Formik>
     </MyWrapper>
   );
 };
@@ -239,4 +267,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
+  errors:{
+    fontSize:12,
+    color:'red',
+    fontWeight:'600',
+    marginLeft:35
+  }
 });

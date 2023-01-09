@@ -13,35 +13,38 @@ import React, {useState, useEffect} from 'react';
 import {AllCategories} from '../utilis/catData';
 import Header from './Header';
 
-const myCategories = ({item}) => (
-  <View style={{justifyContent: 'center', alignItems: 'center'}}>
-    <TouchableOpacity style={styles.categoryCard}>
-      <View style={{flexDirection: 'row'}}>
-        <Image
-          resizeMode="contain"
-          style={{height: 30, width: 30, marginHorizontal: 20}}
-          source={item.img}></Image>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: '600',
-            color: 'black',
-          }}>
-          {item.name}
-        </Text>
-      </View>
 
-      <View>
-        <Image
-          resizeMode="contain"
-          style={{height: 16, width: 16, tintColor: '#898E9A', marginRight: 20}}
-          source={require('../assets/forwordArrow.png')}
-        />
-      </View>
-    </TouchableOpacity>
-  </View>
-);
 const Catagories = ({navigation}) => {
+
+  const myCategories = ({item}) => (
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <TouchableOpacity
+      onPress={()=>{navigation.navigate('AddRecord'),{cat:item.name}}} style={styles.categoryCard}>
+        <View style={{flexDirection: 'row'}}>
+          <Image
+            resizeMode="contain"
+            style={{height: 30, width: 30, marginHorizontal: 20}}
+            source={item.img}></Image>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '600',
+              color: 'black',
+            }}>
+            {item.name}
+          </Text>
+        </View>
+  
+        <View>
+          <Image
+            resizeMode="contain"
+            style={{height: 16, width: 16, tintColor: '#898E9A', marginRight: 20}}
+            source={require('../assets/forwordArrow.png')}
+          />
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
   const [data, setData] = useState(AllCategories);
   useEffect(() => {
     const searchedCat = data.filter(item => item.name.toLowerCase());

@@ -23,7 +23,7 @@ const Profile = ({navigation}) => {
           source={require('../assets/dashbordCard.png')}>
           <Image
             source={{
-              uri: img,
+              uri: 'https://img.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg?w=740&t=st=1673263018~exp=1673263618~hmac=8fc521eab22d00bb4e922c880f2189ec08f350ab3e364bfcd1239d24b7f136d6',
             }}
             style={styles.image}
           />

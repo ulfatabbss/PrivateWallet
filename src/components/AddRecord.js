@@ -15,13 +15,11 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useSelector} from 'react-redux';
-const AddRecord = ({navigation}) => {
+const AddRecord = ({navigation,route}) => {
   const [selected, setSelected] = useState('Expense');
-  const [balance, setBalance] = useState('0');
-  const [categ, setCategory] = useState('');
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState();
   const {userFormData} = useSelector(state => state.root.user);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,6 +38,16 @@ const AddRecord = ({navigation}) => {
     setDatePicker(false);
   }
   useEffect(() => {
+    const obj={
+      "user_id":userFormData.data._id,
+      "cat":"Bills",
+      "amount":5000,
+      "time":"12:43 am",
+      "date":date,
+      "paymentType":"cash",
+      "resource":selected,
+      "decs":des
+    }
     console.log('date', date.toLocaleString());
   }, [date]);
   const recordRequest = async () => {

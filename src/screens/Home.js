@@ -10,40 +10,39 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import React, { useEffect } from 'react';
-import { ScrollView } from 'react-native-virtualized-view';
+import React, {useEffect} from 'react';
+import {ScrollView} from 'react-native-virtualized-view';
 import Modal from 'react-native-modal';
-import { useState } from 'react';
-import { button } from '../utilis/style';
+import {useState} from 'react';
+import {button} from '../utilis/style';
 import Graph from '../components/Graph';
 
-import { AllCategories } from '../utilis/catData';
-import { useSelector } from 'react-redux';
-import { getAmount } from '../shared/services/UserService';
-import { toastMessage } from '../shared/utils/constants';
-import { ActivityIndicator } from 'react-native';
-import { setTotalAmount, store } from '../shared/redux';
-const Home = ({ navigation }) => {
-  const { userFormData, totalAmount } = useSelector(state => state.root.user);
+import {AllCategories} from '../utilis/catData';
+import {useSelector} from 'react-redux';
+import {getAmount} from '../shared/services/UserService';
+import {toastMessage} from '../shared/utils/constants';
+import {ActivityIndicator} from 'react-native';
+import {setTotalAmount, store} from '../shared/redux';
+const Home = ({navigation}) => {
+  const {userFormData, totalAmount} = useSelector(state => state.root.user);
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
-
+  const total = totalAmount[0].amount;
   useEffect(() => {
-    setLoading(true)
-    totalAmount;
+    setLoading(true);
+    // totalAmount;
     const id = userFormData.data._id;
-    console.log(userFormData);
+    console.log(total);
     getAmount(id)
-      .then(({ data }) => {
-        // console.log(data,"dataaaaaaaaaaaaaaaaaaaaaaaaaa");
+      .then(({data}) => {
+        // console.log(data, 'dataaaaaaaaaaaaaaaaaaaaaaaaaa');
         store.dispatch(setTotalAmount(data.data));
       })
       .catch(err => {
         toastMessage('error', err?.response?.data?.message);
       })
       .finally(() => setLoading(false));
-  }, [])
+  }, []);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -51,12 +50,14 @@ const Home = ({ navigation }) => {
 
   const [selected, setSelected] = useState('Day');
   const [balance, setBalance] = useState('0');
-  const myCategories = ({ item }) => (
-    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <TouchableOpacity style={styles.categoryCard}>
+  const myCategories = ({item}) => (
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <TouchableOpacity
+        style={styles.categoryCard}
+        onPress={() => navigation.navigate('HistoryDetails')}>
         <Image
           resizeMode="contain"
-          style={{ height: 30, width: 30 }}
+          style={{height: 30, width: 30}}
           source={item.img}></Image>
       </TouchableOpacity>
       <Text
@@ -72,21 +73,26 @@ const Home = ({ navigation }) => {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <ActivityIndicator size={'large'} color={'red'} />
       </View>
     );
   }
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
+    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
       <StatusBar backgroundColor={'#5176C2'} />
       <View style={styles.card}>
         <ImageBackground
           style={styles.dashbordcard}
           source={require('../assets/dashbordCard.png')}>
-          <View style={{ padding: 10 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image style={styles.profileImg} source={{ uri: 'https://img.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg?w=740&t=st=1673263018~exp=1673263618~hmac=8fc521eab22d00bb4e922c880f2189ec08f350ab3e364bfcd1239d24b7f136d6' }} />
+          <View style={{padding: 10}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                style={styles.profileImg}
+                source={{
+                  uri: 'https://img.freepik.com/free-vector/mysterious-mafia-man-smoking-cigarette_52683-34828.jpg?w=740&t=st=1673263018~exp=1673263618~hmac=8fc521eab22d00bb4e922c880f2189ec08f350ab3e364bfcd1239d24b7f136d6',
+                }}
+              />
               <Text
                 style={{
                   fontSize: 16,
@@ -97,10 +103,10 @@ const Home = ({ navigation }) => {
                 {userFormData.data.name}
               </Text>
             </View>
-            <Text style={{ color: 'white', marginTop: 30 }}>
+            <Text style={{color: 'white', marginTop: 30}}>
               Available Balance
             </Text>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{flexDirection: 'row'}}>
               <Text
                 style={{
                   color: 'white',
@@ -108,94 +114,10 @@ const Home = ({ navigation }) => {
                   fontSize: 24,
                   fontWeight: 'bold',
                 }}>
-                Rs. {balance}
+                Rs. {total}
               </Text>
 
-              <View style={{ flex: 1 }}>
-                {/* <TouchableOpacity onPress={toggleModal} style={styles.editIcon}>
-                  <Image
-                    style={{height: 12, width: 12}}
-                    source={require('../assets/editbalance.png')}
-                  />
-                </TouchableOpacity> */}
-
-                <Modal isVisible={isModalVisible}>
-                  <View style={styles.modalContainer}>
-                    <View style={styles.modalCard}>
-                      <View
-                        style={{
-                          height: 60,
-                          width: Dimensions.get('window').width - 40,
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: 10,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 22,
-                            fontWeight: '600',
-                            color: '#233A6B',
-                          }}>
-                          Edit Balance
-                        </Text>
-                        <TouchableOpacity onPress={toggleModal}>
-                          <Image
-                            style={{ height: 25, width: 25, marginRight: 10 }}
-                            source={require('../assets/close.png')}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      <Text style={{ color: '#000', margin: 10 }}>
-                        Avialable Balance
-                      </Text>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          height: 50,
-                          alignItems: 'center',
-                        }}>
-                        <Text
-                          style={{
-                            fontWeight: 'bold',
-                            fontSize: 25,
-                            color: '#000',
-                            marginLeft: 10,
-                          }}>
-                          RS
-                        </Text>
-                        <TextInput
-                          style={{
-                            height: 50,
-                            width: 120,
-                            marginLeft: 5,
-                            color: '#000',
-                            fontSize: 22,
-                            fontWeight: 'bold',
-                          }}
-                          placeholderTextColor="grey"
-                          cursorColor={'black'}
-                          onChangeText={text => setBalance(text)}
-                          value={balance}
-                          keyboardType="numeric"
-                        />
-                      </View>
-                      <TouchableOpacity
-                        style={[button, { height: 40, width: '80%', margin: 20 }]}
-                        onPress={toggleModal}>
-                        <Text
-                          style={{
-                            alignSelf: 'center',
-                            color: '#fff',
-                            fontSize: 18,
-                          }}>
-                          Done
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </Modal>
-              </View>
+              <View style={{flex: 1}}></View>
             </View>
             <View
               style={{
@@ -207,11 +129,21 @@ const Home = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.incomeExpenseCard}
                 onPress={() => {
-                  navigation.navigate('AddRecord');
+                  navigation.navigate('AddRecord', {
+                    cat: null,
+                    resource: 'Income',
+                  });
                 }}>
                 <Text style={styles.addIncomeExpense}>+ Add income</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.incomeExpenseCard}>
+              <TouchableOpacity
+                style={styles.incomeExpenseCard}
+                onPress={() => {
+                  navigation.navigate('AddRecord', {
+                    cat: null,
+                    resource: 'Expense',
+                  });
+                }}>
                 <Text style={styles.addIncomeExpense}>+ Add Expence</Text>
               </TouchableOpacity>
             </View>
@@ -222,7 +154,7 @@ const Home = ({ navigation }) => {
         <Text
           style={[
             styles.h1,
-            { alignSelf: 'center', fontSize: 20, marginTop: 10 },
+            {alignSelf: 'center', fontSize: 20, marginTop: 10},
           ]}>
           Balance Trend
         </Text>
@@ -231,9 +163,9 @@ const Home = ({ navigation }) => {
             onPress={() => setSelected('Day')}
             style={[
               styles.shiftCards,
-              { backgroundColor: selected == 'Day' ? 'white' : '#5176C2' },
+              {backgroundColor: selected == 'Day' ? 'white' : '#5176C2'},
             ]}>
-            <Text style={{ color: selected == 'Day' ? 'black' : 'white' }}>
+            <Text style={{color: selected == 'Day' ? 'black' : 'white'}}>
               Day
             </Text>
           </TouchableOpacity>
@@ -245,7 +177,7 @@ const Home = ({ navigation }) => {
                 backgroundColor: selected == 'Month' ? 'white' : '#5176C2',
               },
             ]}>
-            <Text style={{ color: selected == 'Month' ? 'black' : 'white' }}>
+            <Text style={{color: selected == 'Month' ? 'black' : 'white'}}>
               Month
             </Text>
           </TouchableOpacity>
@@ -253,9 +185,9 @@ const Home = ({ navigation }) => {
             onPress={() => setSelected('year')}
             style={[
               styles.shiftCards,
-              { backgroundColor: selected == 'year' ? 'white' : '#5176C2' },
+              {backgroundColor: selected == 'year' ? 'white' : '#5176C2'},
             ]}>
-            <Text style={{ color: selected == 'year' ? 'black' : 'white' }}>
+            <Text style={{color: selected == 'year' ? 'black' : 'white'}}>
               year
             </Text>
           </TouchableOpacity>
@@ -271,7 +203,7 @@ const Home = ({ navigation }) => {
         }}>
         Category
       </Text>
-      <View style={{ flex: 1, width: '94%', alignSelf: 'center', bottom: 20 }}>
+      <View style={{flex: 1, width: '94%', alignSelf: 'center', bottom: 20}}>
         <FlatList
           renderItem={myCategories}
           data={AllCategories}
@@ -350,7 +282,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     backgroundColor: '#fff',
   },
-  addIncomeExpense: { color: '#233A6B', fontSize: 16, fontWeight: '900' },
+  addIncomeExpense: {color: '#233A6B', fontSize: 16, fontWeight: '900'},
   balanceTrendCard: {
     height: 400,
     width: '90%',

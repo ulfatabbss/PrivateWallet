@@ -20,6 +20,8 @@ import Signup from '../screens/Signup';
 import Verify from '../screens/Verify';
 import ForgotPassword from '../screens/ForgotPassword';
 import ConfirmPassword from '../screens/ConfirmPassword';
+import HistoryDetails from '../screens/HistoryDetails';
+import Note from '../screens/Note';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -185,14 +187,6 @@ function MyTabs() {
 const AppStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="GetStartScreen" component={GetStartScreen} /> */}
-      {/* <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
-      <Stack.Screen name="Verify" component={Verify} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="ConfirmPassword" component={ConfirmPassword} /> */}
-      {/* <Stack.Screen name="SelectPage" component={SelectPage} /> */}
       <Stack.Screen name="MyTabs" component={MyTabs} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Statistics" component={Statistics} />
@@ -204,6 +198,8 @@ const AppStack = () => {
       <Stack.Screen name="Accounts" component={Accounts} />
       <Stack.Screen name="AddRecord" component={AddRecord} />
       <Stack.Screen name="Catagories" component={Catagories} />
+      <Stack.Screen name="HistoryDetails" component={HistoryDetails} />
+      <Stack.Screen name="Note" component={Note} />
     </Stack.Navigator>
   );
 };

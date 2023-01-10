@@ -13,13 +13,15 @@ import React, {useState, useEffect} from 'react';
 import {AllCategories} from '../utilis/catData';
 import Header from './Header';
 
-
-const Catagories = ({navigation}) => {
-
+const Catagories = ({navigation, route}) => {
+  const {res} = route.params;
   const myCategories = ({item}) => (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity
-      onPress={()=>{navigation.navigate('AddRecord'),{cat:item.name}}} style={styles.categoryCard}>
+        onPress={() => {
+          navigation.navigate('AddRecord', {cat: item.name, resource: res});
+        }}
+        style={styles.categoryCard}>
         <View style={{flexDirection: 'row'}}>
           <Image
             resizeMode="contain"
@@ -34,11 +36,16 @@ const Catagories = ({navigation}) => {
             {item.name}
           </Text>
         </View>
-  
+
         <View>
           <Image
             resizeMode="contain"
-            style={{height: 16, width: 16, tintColor: '#898E9A', marginRight: 20}}
+            style={{
+              height: 16,
+              width: 16,
+              tintColor: '#898E9A',
+              marginRight: 20,
+            }}
             source={require('../assets/forwordArrow.png')}
           />
         </View>

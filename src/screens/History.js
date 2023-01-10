@@ -11,38 +11,41 @@ import React from 'react';
 import {AllCategories} from '../utilis/catData';
 import Header from '../components/Header';
 
-const myCategories = ({item}) => (
-  <View style={{justifyContent: 'center', alignItems: 'center'}}>
-    <TouchableOpacity style={styles.categoryCard}>
-      <View style={{flexDirection: 'row'}}>
-        <Image
-          resizeMode="contain"
-          style={{height: 30, width: 30, marginRight: 20}}
-          source={item.img}></Image>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: '600',
-            color: 'black',
-          }}>
-          {item.name}
-        </Text>
-      </View>
-
-      <View>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: '600',
-            color: 'black',
-          }}>
-          {item.value}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-);
 const History = ({navigation}) => {
+  const myCategories = ({item}) => (
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <TouchableOpacity
+        style={styles.categoryCard}
+        onPress={() => navigation.navigate('HistoryDetails', {cat: item.name})}>
+        <View style={{flexDirection: 'row'}}>
+          <Image
+            resizeMode="contain"
+            style={{height: 30, width: 30, marginRight: 20}}
+            source={item.img}></Image>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '600',
+              color: 'black',
+            }}>
+            {item.name}
+          </Text>
+        </View>
+
+        <View>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '600',
+              color: 'black',
+            }}>
+            {item.value}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Header

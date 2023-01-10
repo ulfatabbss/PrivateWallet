@@ -4,10 +4,12 @@ export const LoginValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Please provide valid email')
     .required('Email is required'),
-  password: Yup.string().required('Password is required').matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-    'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number',
-  ),
+  password: Yup.string()
+    .required('Password is required')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number',
+    ),
 });
 export const SignUpValidationSchema = Yup.object().shape({
   fname: Yup.string().required('Please enter your first name'),
@@ -42,9 +44,11 @@ export const updateProfileSchema = Yup.object().shape({
   //   'Phone number is not valid',
   // ),
 });
-export const addReportValidationSchema = Yup.object().shape({
-  rpTitle: Yup.string().required('Report Title is required!!'),
-  rprtDesrptn: Yup.string().required('Wave Description is required!!'),
+export const addRecordValidationSchema = Yup.object().shape({
+  amount: Yup.string().required('Amount is required').max(10, 'Too Long!'),
+  // category: Yup.string().required('Category is Required'),
+  // date: Yup.string().required('Date is required!!'),
+  // time: Yup.string().required('Time is required!!'),
 });
 export const addShopValidationSchema = Yup.object().shape({
   prdtitle: Yup.string().required('Product Title is required!!'),

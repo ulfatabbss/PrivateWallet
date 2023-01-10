@@ -8,13 +8,17 @@ const initialState: any = {
   isLoggedIn: false,
   userFormData: null,
   colorCode: '#19383A',
-  totalAmount:null
+  totalAmount: null,
+  record: null,
 };
 
 export const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setRecord: (state, action) => {
+      state.record = action.payload;
+    },
     setReg: (state, action) => {
       state.reg = action.payload;
     },
@@ -58,6 +62,7 @@ export const {
   setIsLoggedIn,
   setUserFormData,
   setTotalAmount,
+  setRecord,
 } = userReducer.actions;
 
 export default userReducer.reducer;

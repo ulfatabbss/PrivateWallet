@@ -11,54 +11,92 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect} from 'react';
-import {ScrollView} from 'react-native-virtualized-view';
 import Modal from 'react-native-modal';
 import {useState} from 'react';
 import {button} from '../utilis/style';
 import Graph from '../components/Graph';
 
-import {AllCategories} from '../utilis/catData';
+import {AllCategories, ExpenseCategories} from '../utilis/catData';
 import {useSelector} from 'react-redux';
 import {getAmount} from '../shared/services/UserService';
 import {toastMessage} from '../shared/utils/constants';
 import {ActivityIndicator} from 'react-native';
-import {setTotalAmount, store} from '../shared/redux';
+import {
+  setCategoriesList,
+  setExpenceList,
+  setIncomeList,
+  setTotalAmount,
+  store,
+} from '../shared/redux';
+import {categoriesList} from '../shared/services/AppServices';
+import {ScrollView} from 'react-native-virtualized-view';
 const Home = ({navigation}) => {
-  const {userFormData, totalAmount} = useSelector(state => state.root.user);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const {userFormData, totalAmount, categoryList, expenceList, incomeList} =
+    useSelector(state => state.root.user);
   const [loading, setLoading] = useState(false);
-  const total = totalAmount[0].amount;
-  useEffect(() => {
-    setLoading(true);
-    // totalAmount;
-    const id = userFormData.data._id;
-    console.log(total);
-    getAmount(id)
+  const id = userFormData?.data?._id;
+  const handleAmount = async () => {
+    await getAmount(id)
       .then(({data}) => {
         // console.log(data, 'dataaaaaaaaaaaaaaaaaaaaaaaaaa');
         store.dispatch(setTotalAmount(data.data));
       })
       .catch(err => {
         toastMessage('error', err?.response?.data?.message);
+      });
+  };
+  const handleList = async () => {
+    await categoriesList()
+      .then(({data}) => {
+        // console.log(data, 'categoryyyyyyyyyyyyyyyyyyyyy list');
+        store.dispatch(setCategoriesList(data.data));
       })
-      .finally(() => setLoading(false));
+      .catch(err => {
+        toastMessage('error', err?.response?.data?.message);
+      });
+  };
+  useEffect(() => {
+    setLoading(true);
+    handleAmount();
+    handleList().finally(() => setLoading(false));
+    data = categoryList
+      .filter(item => item.type == 'Income')
+      .map(({id, category, type, amount, image}) => ({
+        id,
+        category,
+        type,
+        amount,
+        image,
+      }));
+    store.dispatch(setIncomeList(data));
+    console.log(data, 'incomeeeeeeeeee');
+    data1 = categoryList
+      .filter(item => item.type == 'Expence')
+      .map(({id, category, type, amount, image}) => ({
+        id,
+        category,
+        type,
+        amount,
+        image,
+      }));
+    store.dispatch(setExpenceList(data1));
+    console.log(data, 'expenceeeeeeeeeeeeee');
+    // console.log(categoriesList?.data, 'lissssssssssttttttttttttttt');
   }, []);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
+  const total = totalAmount ? totalAmount[0]?.amount : 0;
   const [selected, setSelected] = useState('Day');
-  const [balance, setBalance] = useState('0');
   const myCategories = ({item}) => (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity
         style={styles.categoryCard}
-        onPress={() => navigation.navigate('HistoryDetails')}>
+        onPress={() =>
+          navigation.navigate('HistoryDetails', {cat: item.category})
+        }>
         <Image
           resizeMode="contain"
           style={{height: 30, width: 30}}
-          source={item.img}></Image>
+          source={{uri: item.image}}></Image>
       </TouchableOpacity>
       <Text
         style={{
@@ -66,7 +104,7 @@ const Home = ({navigation}) => {
           fontWeight: '600',
           color: 'black',
         }}>
-        {item.name}
+        {item.category}
       </Text>
     </View>
   );
@@ -119,6 +157,7 @@ const Home = ({navigation}) => {
 
               <View style={{flex: 1}}></View>
             </View>
+
             <View
               style={{
                 width: '100%',
@@ -136,17 +175,34 @@ const Home = ({navigation}) => {
                 }}>
                 <Text style={styles.addIncomeExpense}>+ Add income</Text>
               </TouchableOpacity>
+
               <TouchableOpacity
-                style={styles.incomeExpenseCard}
+                style={[
+                  styles.incomeExpenseCard,
+                  {backgroundColor: total == 0 ? '#a9a9a9' : 'white'},
+                ]}
                 onPress={() => {
                   navigation.navigate('AddRecord', {
                     cat: null,
                     resource: 'Expense',
                   });
-                }}>
+                }}
+                disabled={total == 0 ? true : false}>
                 <Text style={styles.addIncomeExpense}>+ Add Expence</Text>
               </TouchableOpacity>
             </View>
+            {total == 0 ? (
+              <Text
+                style={{
+                  alignSelf: 'flex-end',
+                  top: 2,
+                  fontSize: 16,
+                  color: '#a9a9a9',
+                  fontWeight: '500',
+                }}>
+                *Insufficient Balance*
+              </Text>
+            ) : null}
           </View>
         </ImageBackground>
       </View>
@@ -201,14 +257,23 @@ const Home = ({navigation}) => {
           color: '#233A6B',
           fontWeight: 'bold',
         }}>
-        Category
+        Expense Category
+      </Text>
+
+      <View style={{flex: 1, width: '94%', alignSelf: 'center', bottom: 20}}>
+        <FlatList renderItem={myCategories} data={expenceList} numColumns={4} />
+      </View>
+      <Text
+        style={{
+          margin: 22,
+          fontSize: 24,
+          color: '#233A6B',
+          fontWeight: 'bold',
+        }}>
+        Income Category
       </Text>
       <View style={{flex: 1, width: '94%', alignSelf: 'center', bottom: 20}}>
-        <FlatList
-          renderItem={myCategories}
-          data={AllCategories}
-          numColumns={4}
-        />
+        <FlatList renderItem={myCategories} data={incomeList} numColumns={4} />
       </View>
     </ScrollView>
   );

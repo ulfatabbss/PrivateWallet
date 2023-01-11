@@ -10,12 +10,24 @@ const initialState: any = {
   colorCode: '#19383A',
   totalAmount: null,
   record: null,
+  categoryList: null,
+  incomeList: null,
+  expenceList: null,
 };
 
 export const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setIncomeList: (state, action) => {
+      state.incomeList = action.payload;
+    },
+    setExpenceList: (state, action) => {
+      state.expenceList = action.payload;
+    },
+    setCategoriesList: (state, action) => {
+      state.categoryList = action.payload;
+    },
     setRecord: (state, action) => {
       state.record = action.payload;
     },
@@ -63,6 +75,9 @@ export const {
   setUserFormData,
   setTotalAmount,
   setRecord,
+  setCategoriesList,
+  setExpenceList,
+  setIncomeList,
 } = userReducer.actions;
 
 export default userReducer.reducer;

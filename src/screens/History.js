@@ -10,25 +10,34 @@ import {
 import React from 'react';
 import {AllCategories} from '../utilis/catData';
 import Header from '../components/Header';
+import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
+import {useState} from 'react';
 
 const History = ({navigation}) => {
+  const {userFormData, totalAmount, categoryList} = useSelector(
+    state => state.root.user,
+  );
+
   const myCategories = ({item}) => (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity
         style={styles.categoryCard}
-        onPress={() => navigation.navigate('HistoryDetails', {cat: item.name})}>
+        onPress={() =>
+          navigation.navigate('HistoryDetails', {cat: item.category})
+        }>
         <View style={{flexDirection: 'row'}}>
           <Image
             resizeMode="contain"
             style={{height: 30, width: 30, marginRight: 20}}
-            source={item.img}></Image>
+            source={{uri: item.image}}></Image>
           <Text
             style={{
               fontSize: 16,
               fontWeight: '600',
               color: 'black',
             }}>
-            {item.name}
+            {item.category}
           </Text>
         </View>
 
@@ -53,7 +62,7 @@ const History = ({navigation}) => {
         color={'#233A6B'}
         navigation={navigation}
       />
-      <FlatList renderItem={myCategories} data={AllCategories} />
+      <FlatList renderItem={myCategories} data={categoryList} />
     </View>
   );
 };

@@ -19,8 +19,19 @@ const updateAmount = (id: any, obj2: any) => {
   return HTTP_CLIENT.put(`${endPoints.updateAmount}/${id}`, obj2);
 };
 
-const socialLogin = (obj: any) => {
-  return HTTP_CLIENT.post(endPoints.handleSocialLogin, obj);
+const categoriesList = (obj: any) => {
+  return HTTP_CLIENT.get(endPoints.categoriesList, obj);
+};
+const updateProfile = (obj: any) => {
+  console.log(obj, 'obj updateeeeeeeeeeee');
+
+  return HTTP_CLIENT.post(endPoints.updateProfile, obj);
 };
 
-export {getRecordRequest, addRecord, updateAmount};
+export {
+  getRecordRequest,
+  addRecord,
+  updateAmount,
+  categoriesList,
+  updateProfile,
+};

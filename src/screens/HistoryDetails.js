@@ -8,24 +8,25 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../components/Header';
-import {getRecordRequest} from '../shared/services/AppServices';
+import {categoriesList, getRecordRequest} from '../shared/services/AppServices';
 import {useSelector} from 'react-redux';
 import {setRecord, store} from '../shared/redux';
 
 const HistoryDetails = ({navigation, route}) => {
   const {cat} = route.params;
   const [loading, setLoading] = useState(false);
+  const [newList, setNewList] = useState(null);
   const {userFormData, record} = useSelector(state => state.root.user);
-  const [balance, setBalance] = useState(null);
+
   const Check = async () => {
     setLoading(true);
     // totalAmount;
-    const id = userFormData.data._id;
+    const id = userFormData?.data?._id;
     // console.log(total);
     await getRecordRequest(id, cat)
       .then(async ({data}) => {
         // console.log(data.data, 'dataaaaaaaaaaaaaaaaaaaaaaaaaa');
-        const set = await data.data;
+        const set = await data?.data;
         store.dispatch(setRecord(set));
       })
       .catch(err => {
@@ -42,8 +43,26 @@ const HistoryDetails = ({navigation, route}) => {
     }, 0);
     console.log(sum);
   };
+
   useEffect(() => {
     Check();
+    let cloneList = record.map(a => ({...a}));
+    // console.log(cloneList, 'cloneeeeeeeeee');
+
+    let sortedCars1 = cloneList.sort(
+      (a, b) =>
+        b.date
+          .split('/')
+          .reverse()
+          .join()
+          .localeCompare(a.date.split('/').reverse().join()) ||
+        b.Time.split('/')
+          .reverse()
+          .join()
+          .localeCompare(a.Time.split('/').reverse().join()),
+    );
+    setNewList(sortedCars1);
+    console.log(sortedCars1, 'sorttttttttttttttttttt');
   }, []);
 
   const categories = ({item}) => {
@@ -115,7 +134,7 @@ const HistoryDetails = ({navigation, route}) => {
   return (
     <View style={{flex: 1}}>
       <Header navigation={navigation} text={'History'} color={'blue'} />
-      <FlatList renderItem={categories} data={record} />
+      <FlatList renderItem={categories} data={newList} />
     </View>
   );
 };

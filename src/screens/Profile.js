@@ -40,7 +40,7 @@ const Profile = ({navigation}) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('EditProfile', {imgage: img});
+          navigation.navigate('EditProfile');
         }}
         style={{
           height: 60,
@@ -78,7 +78,9 @@ const Profile = ({navigation}) => {
           />
           <Text style={styles.text}>Summary</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection: 'row', marginVertical: 10}}>
+        <TouchableOpacity
+          style={{flexDirection: 'row', marginVertical: 10}}
+          onPress={() => navigation.navigate('History')}>
           <Image
             resizeMode="contain"
             style={[styles.icon, {tintColor: '#233A6B'}]}
@@ -130,7 +132,9 @@ const Profile = ({navigation}) => {
           />
           <Text style={styles.text}>Help and support</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection: 'row', marginVertical: 10}}>
+        <TouchableOpacity
+          style={{flexDirection: 'row', marginVertical: 10}}
+          onPress={() => navigation.navigate('Faq')}>
           <Image
             resizeMode="contain"
             style={styles.icon}

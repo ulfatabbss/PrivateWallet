@@ -11,29 +11,33 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {AllCategories} from '../utilis/catData';
+
 import Header from './Header';
+import {useSelector} from 'react-redux';
 
 const Catagories = ({navigation, route}) => {
   const {res} = route.params;
+  const {userFormData, totalAmount, categoryList, expenceList, incomeList} =
+    useSelector(state => state.root.user);
   const myCategories = ({item}) => (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('AddRecord', {cat: item.name, resource: res});
+          navigation.navigate('AddRecord', {cat: item.category, resource: res});
         }}
         style={styles.categoryCard}>
         <View style={{flexDirection: 'row'}}>
           <Image
             resizeMode="contain"
             style={{height: 30, width: 30, marginHorizontal: 20}}
-            source={item.img}></Image>
+            source={{uri: item.image}}></Image>
           <Text
             style={{
               fontSize: 16,
               fontWeight: '600',
               color: 'black',
             }}>
-            {item.name}
+            {item.category}
           </Text>
         </View>
 
@@ -52,10 +56,14 @@ const Catagories = ({navigation, route}) => {
       </TouchableOpacity>
     </View>
   );
-  const [data, setData] = useState(AllCategories);
+  const [data, setData] = useState(null);
   useEffect(() => {
-    const searchedCat = data.filter(item => item.name.toLowerCase());
-    setData(searchedCat);
+    console.log(res, 'expeeeeeeeeeeeee');
+    if (res == 'Expense') {
+      setData(expenceList);
+    } else {
+      setData(incomeList);
+    }
   }, []);
   return (
     <View style={styles.container}>

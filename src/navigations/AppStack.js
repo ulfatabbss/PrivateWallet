@@ -22,6 +22,7 @@ import ForgotPassword from '../screens/ForgotPassword';
 import ConfirmPassword from '../screens/ConfirmPassword';
 import HistoryDetails from '../screens/HistoryDetails';
 import Note from '../screens/Note';
+import Faq from '../screens/Faq';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -200,6 +201,7 @@ const AppStack = () => {
       <Stack.Screen name="Catagories" component={Catagories} />
       <Stack.Screen name="HistoryDetails" component={HistoryDetails} />
       <Stack.Screen name="Note" component={Note} />
+      <Stack.Screen name="Faq" component={Faq} />
     </Stack.Navigator>
   );
 };

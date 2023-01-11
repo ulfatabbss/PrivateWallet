@@ -11,6 +11,18 @@ export const LoginValidationSchema = Yup.object().shape({
       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number',
     ),
 });
+export const updateProfileValidationShema = Yup.object().shape({
+  name: Yup.string().required('Please enter your first name'),
+  email: Yup.string()
+    .email('Please provide valid email')
+    .required('Email is required'),
+  password: Yup.string()
+    .required('Password is required')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number',
+    ),
+});
 export const SignUpValidationSchema = Yup.object().shape({
   fname: Yup.string().required('Please enter your first name'),
   lname: Yup.string().required('Please enter your last name'),

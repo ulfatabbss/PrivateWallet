@@ -20,6 +20,10 @@ const resetPaswordService = (obj: any) => {
 const socialLogin = (obj: any) => {
   return HTTP_CLIENT.post(endPoints.handleSocialLogin, obj);
 };
+const updateAcount = (id: any, obj: any) => {
+  console.log(id, 'idddddddddddddd');
+  return HTTP_CLIENT.get(`${endPoints.getAmont}/${id}`);
+};
 
 export {
   loginService,
@@ -28,4 +32,5 @@ export {
   forgotPaswordService,
   resetPaswordService,
   socialLogin,
+  updateAcount,
 };

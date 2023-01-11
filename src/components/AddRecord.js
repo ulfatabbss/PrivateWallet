@@ -34,7 +34,7 @@ const AddRecord = ({navigation, route}) => {
   const [dt, setDt] = useState(new Date().toLocaleDateString('en-US'));
   const [time, setTime] = useState(new Date().toLocaleTimeString('en-US'));
   const {userFormData, totalAmount} = useSelector(state => state.root.user);
-  const total = totalAmount[0].amount;
+  const total = totalAmount[0]?.amount;
   const [modalVisible, setModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -72,11 +72,15 @@ const AddRecord = ({navigation, route}) => {
       .catch(err => {
         toastMessage('error', err?.response?.data?.message);
       });
-    const obj2 = {amount: parseInt(total) + parseInt(values.amount)};
+    const obj2 =
+      resource == 'Expense'
+        ? {amount: parseInt(total) - parseInt(values.amount)}
+        : {amount: parseInt(total) + parseInt(values.amount)};
     updateAmount(id, obj2)
       .then(({data}) => {
         console.log(data, 'update successssssssssssssss');
         store.dispatch(setTotalAmount(data.data));
+        navigation.replace('MyTabs');
       })
       .catch(err => {
         toastMessage('error', err?.response?.data?.message);
